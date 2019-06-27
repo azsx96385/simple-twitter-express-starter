@@ -3,7 +3,7 @@
 //會出路由
 module.exports = (app, passport) => {
   app.get("/users/logIn", (req, res) => {
-    res.send("loginPage!");
+    res.render("user_login");
   });
   app.post("/users/logIn", (req, res) => {
     res.send("loginPage!");
