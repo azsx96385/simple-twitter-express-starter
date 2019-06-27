@@ -1,6 +1,8 @@
 const express = require("express");
 const helpers = require("./_helpers");
 const passport = require("./config/passport");
+const flash = require("connect-flash");
+const session = require("express-session");
 const app = express();
 const port = 3000;
 
@@ -26,10 +28,26 @@ app.use(bdParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/upload", express.static(__dirname + "/upload"));
 
+//session
+app.use(
+  session({ secret: "seceret", resave: false, saveUninitialized: false })
+);
+app.use(flash());
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 //[路由區]-------------------------------------------------------------------------------
 // use helpers.getUser(req) to replace req.user
 // use helpers.ensureAuthenticated(req) to replace req.isAuthenticated()
-module.exports = app;
+app.use((req, res, next) => {
+  res.locals.success_messages = req.flash("success_messages");
+  res.locals.error_messages = req.flash("error_messages");
+  next();
+});
 app.get("/", (req, res) => res.send("Hello World!"));
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 require("./route/index")(app, passport);
+
+module.exports = app;
