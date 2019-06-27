@@ -1,6 +1,6 @@
 const express = require("express");
 const helpers = require("./_helpers");
-
+const passport = require("./config/passport");
 const app = express();
 const port = 3000;
 
@@ -32,4 +32,4 @@ app.use("/upload", express.static(__dirname + "/upload"));
 module.exports = app;
 app.get("/", (req, res) => res.send("Hello World!"));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-require("./route/index")(app);
+require("./route/index")(app, passport);
