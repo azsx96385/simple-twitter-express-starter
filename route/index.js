@@ -9,7 +9,7 @@ module.exports = (app, passport) => {
     res.send("loginPage!");
   });
   app.get("/users/signIn", (req, res) => {
-    res.send("loginPage!");
+    res.render("user_signIn");
   });
   app.post("/users/signIn", (req, res) => {
     res.send("loginPage!");
