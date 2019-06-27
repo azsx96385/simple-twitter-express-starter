@@ -6,7 +6,14 @@ const userController = require("../controllers/userController");
 module.exports = (app, passport) => {
   //[使用者 登入 | 登出 | 註冊]==========================
   app.get("/users/logIn", userController.logInPage);
-  app.post("/users/logIn", userController.logIn);
+  app.post(
+    "/users/logIn",
+    passport.authenticate("local", {
+      failureRedirect: "/users/logIn",
+      failureFlash: true
+    }),
+    userController.logIn
+  );
   app.get("/users/signIn", userController.signUpPage);
   app.post("/users/signIn", userController.signUp);
   app.get("/users/logOut", userController.logOut);

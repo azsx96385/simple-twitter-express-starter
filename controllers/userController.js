@@ -40,7 +40,11 @@ const userController = {
   logInPage: (req, res) => {
     return res.render("user_logIn");
   },
-  logIn: (req, res) => {},
+  logIn: (req, res) => {
+    //使用 passport 做驗證
+    req.flash("success_messages", "成功訊息|你已經成功登入");
+    res.send("你登入拉!!!!");
+  },
   logOut: (req, res) => {}
 };
 
