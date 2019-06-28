@@ -4,7 +4,7 @@ const faker = require("faker");
 
 //fake-userdata array
 let faseUserArray = [];
-for (let i = 0; i < 10; i++) {
+for (let i = 1; i < 11; i++) {
   faseUserArray.push({
     name: `user${i}`,
     email: `user${i}@example.com`,

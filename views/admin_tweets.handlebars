@@ -12,12 +12,14 @@
                 </tr>
             </thead>
             <tbody>
+                {{#each tweets}}
                 <tr>
                     <th scope="row"></th>
-                    <td>Name</td>
-                    <td>Description</td>
-                    <td><a class="btn btn-danger" href="">DELETE</a></td>
+                    <td>{{this.User.name}}</td>
+                    <td>{{this.description}}</td>
+                    <td><a class="btn btn-danger" href="/admin/tweets/{{this.id}}">DELETE</a></td>
                 </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
