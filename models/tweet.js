@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Tweet.associate = function(models) {};
+  Tweet.associate = function(models) {
+    //關聯一 | User - tweet | 一對多關係
+    Tweet.belongsTo(models.User);
+  };
   return Tweet;
 };
