@@ -1,5 +1,6 @@
 //匯入需要controller
 const userController = require("../controllers/userController");
+const adminController = require("../controllers/adminController");
 //匯入需要model
 
 //會出路由
