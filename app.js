@@ -3,6 +3,7 @@ const helpers = require("./_helpers");
 const passport = require("./config/passport");
 const flash = require("connect-flash");
 const session = require("express-session");
+const methodOverride = require("method-override");
 const app = express();
 const port = 3000;
 
@@ -36,6 +37,8 @@ app.use(flash());
 //passport
 app.use(passport.initialize());
 app.use(passport.session());
+//overwrite
+app.use(methodOverride('_method'))
 
 //[路由區]-------------------------------------------------------------------------------
 // use helpers.getUser(req) to replace req.user

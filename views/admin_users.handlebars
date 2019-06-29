@@ -1,4 +1,5 @@
 {{> admin_nav }}
+{{> message }}
 <div class="row">
     <div class="col-1"></div>
     <div class="admiv_tweets col-10">
@@ -6,22 +7,24 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">USER</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">PUSH</th>
-                    <th scope="col">FOLLOWER</th>
-                    <th scope="col">LIKE</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Tweets</th>
+                    <th scope="col">Followings</th>
+                    <th scope="col">Follower</th>
+                    <th scope="col">Like</th>
                 </tr>
             </thead>
             <tbody>
+                {{#each users}}
                 <tr>
                     <th scope="row"></th>
-                    <td>Name</td>
-                    <td>Description</td>
-                    <td>10</td>
-                    <td>100</td>
-                    <td>1000</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.TweetsAcount}}</td>
+                    <td>{{this.FollowingsAcount}}</td>
+                    <td>{{this.FollowersAcount}}</td>
+                    <td>{{this.LikesAcount}}</td>
                 </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>

@@ -17,7 +17,12 @@
                     <th scope="row"></th>
                     <td>{{this.User.name}}</td>
                     <td>{{this.description}}</td>
-                    <td><a class="btn btn-danger" href="/admin/tweets/{{this.id}}">DELETE</a></td>
+
+                    <td>
+                        <form action="/admin/tweets/{{this.id}}?_method=DELETE" method="POST">
+                            <button class="btn btn-danger" type="submit">DELETE</button>
+                        </form>
+                    </td>
                 </tr>
                 {{/each}}
             </tbody>
