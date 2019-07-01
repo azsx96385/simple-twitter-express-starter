@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt-nodejs");
 //引入model
 const db = require("../models");
 const User = db.User;
+const Tweet = db.Tweet
+const Reply = db.Reply
 
 //controller 設定區
 const userController = {
@@ -50,26 +52,58 @@ const userController = {
   logIn: (req, res) => {
     //使用 passport 做驗證
     req.flash("success_messages", "成功訊息|你已經成功登入");
-    res.send("你登入拉!!!!");
+    res.render('tweets')
   },
   logOut: (req, res) => {
     req.flash("success_messages", "成功訊息|你已經成功登出");
     req.logout();
     res.redirect("/users/logIn");
   },
+  //profile
   getUserTweets: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        Tweet,
-        { model: User, as: "Followings" },
-        { model: User, as: "Followers" }
+
+        {
+          model: Tweet, include: [Reply, //for 使用者的Tweets的relPy數
+            { model: User, as: 'likedUsers' }]//for 使用者的Tweets的like數
+        },
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        { model: Tweet, as: 'likedTweets' }
       ]
     }).then(user => {
-      let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt);
-      console.log(user);
-      return res.render("userWall", { user: user, userTweets: userTweets });
-    });
-  }
+      let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt)
+
+      return res.render('userWall', { user: user, userTweets: userTweets })
+
+    })
+
+  },
+  getUserFollowings: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        { model: Tweet, as: 'likedTweets' }
+      ]
+    }).then(user => {
+      let userFollowings = user.Followings.sort((a, b) => b.createAt - a.createAt)
+
+      return res.render('userFollowing', { user: user, userFollowings: userFollowings })
+    })
+
+
+  },
+  getUserFollowers: (req, res) => {
+
+  },
+  getUserlikes: (req, res) => {
+
+
+  },
+
 };
 
 //匯出controller

@@ -8,12 +8,9 @@ function getUser(req) {
   return req.user;
 }
 
-function momentFormat(a) {
-  return moment(a).format('MMMM Do YYYY, h:mm:ss a');
-}
 
 module.exports = {
   ensureAuthenticated,
   getUser,
-  momentFormat
+
 };

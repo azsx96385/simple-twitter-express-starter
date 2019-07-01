@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     //設定model 關聯
     //關聯一 | User - tweet | 一對多關係
     User.hasMany(models.Tweet);
+    //關聯一 | User - Reply| 一對多關係
+    User.hasMany(models.Reply);
     //關聯二 | User-User | 多對多
     //固定 followingId -  抓出追隨者
     User.belongsToMany(models.User, {
@@ -34,8 +36,9 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Tweet, {
       through: models.Like,
       foreignKey: "UserId",
-      as: "userTweetsLikes"
+      as: 'likedTweets'
     });
+
   };
   return User;
 };

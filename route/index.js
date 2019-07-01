@@ -45,11 +45,11 @@ module.exports = (app, passport) => {
 
   //profile
   //tweet wall
-  //app.get("/users/:id/tweets", userController.getUserTweets);
+  app.get("/users/:id/tweets", userController.getUserTweets);
 
-  /*//following wall
-  app.get('/users/: id / followings', userController.getUserFollowings)
-  //fans wall
+  //following wall
+  app.get('/users/:id/followings', userController.getUserFollowings)
+  /*fans wall
   app.get('/users/:id/followers', userController.getUserFollowers)s
   //likes wall(show tweets)
   app.get('/users/:id/likes', userController.getUserLikes)*/
