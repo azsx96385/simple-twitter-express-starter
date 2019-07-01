@@ -1,4 +1,3 @@
-
 const express = require("express");
 const helpers = require("./_helpers");
 const passport = require("./config/passport");
@@ -6,8 +5,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const app = express();
-const port = 3000;
-
+const port = 3001;
 
 const handlebars = require("express-handlebars");
 const bdParser = require("body-parser");
@@ -21,7 +19,6 @@ app.engine(
     helpers: require("./config/handlebars-helper")
   })
 );
-
 
 app.set("view engine", "handlebars");
 
@@ -54,15 +51,5 @@ app.use((req, res, next) => {
   next();
 });
 
-
-app.listen(port, () => {
-  db.sequelize.sync() // 跟資料庫同步
-  console.log(`Example app listening on port ${port}!`)
-})
-
-
 require("./route/index")(app, passport);
-module.exports = app
-
-
-
+module.exports = app;

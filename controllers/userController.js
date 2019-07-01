@@ -56,6 +56,19 @@ const userController = {
     req.flash("success_messages", "成功訊息|你已經成功登出");
     req.logout();
     res.redirect("/users/logIn");
+  },
+  getUserTweets: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: "Followings" },
+        { model: User, as: "Followers" }
+      ]
+    }).then(user => {
+      let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt);
+      console.log(user);
+      return res.render("userWall", { user: user, userTweets: userTweets });
+    });
   }
 };
 
