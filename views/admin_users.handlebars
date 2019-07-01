@@ -1,0 +1,31 @@
+{{> admin_nav }}
+{{> message }}
+<div class="row">
+    <div class="col-1"></div>
+    <div class="admiv_tweets col-10">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Tweets</th>
+                    <th scope="col">Followings</th>
+                    <th scope="col">Follower</th>
+                    <th scope="col">Like</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <th scope="row"></th>
+                    <td>{{this.name}}</td>
+                    <td>{{this.TweetsAcount}}</td>
+                    <td>{{this.FollowingsAcount}}</td>
+                    <td>{{this.FollowersAcount}}</td>
+                    <td>{{this.LikesAcount}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
