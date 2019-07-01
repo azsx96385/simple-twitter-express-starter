@@ -1,5 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
+
   const Tweet = sequelize.define(
     "Tweet",
     {

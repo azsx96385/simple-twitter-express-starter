@@ -1,3 +1,4 @@
+
 const express = require("express");
 const helpers = require("./_helpers");
 const passport = require("./config/passport");
@@ -6,6 +7,7 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const app = express();
 const port = 3000;
+
 
 const handlebars = require("express-handlebars");
 const bdParser = require("body-parser");
@@ -19,6 +21,7 @@ app.engine(
     helpers: require("./config/handlebars-helper")
   })
 );
+
 
 app.set("view engine", "handlebars");
 
@@ -41,7 +44,9 @@ app.use(passport.session());
 app.use(methodOverride("_method"));
 
 //[路由區]-------------------------------------------------------------------------------
+
 // use helpers.getUser(req) to replace req.user
+
 // use helpers.ensureAuthenticated(req) to replace req.isAuthenticated()
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash("success_messages");
@@ -49,6 +54,15 @@ app.use((req, res, next) => {
   next();
 });
 
-require("./route/index")(app, passport);
 
-module.exports = app;
+app.listen(port, () => {
+  db.sequelize.sync() // 跟資料庫同步
+  console.log(`Example app listening on port ${port}!`)
+})
+
+
+require("./route/index")(app, passport);
+module.exports = app
+
+
+

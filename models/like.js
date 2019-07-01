@@ -9,5 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Like.associate = function(models) {};
+
   return Like;
 };
