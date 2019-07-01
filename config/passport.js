@@ -49,10 +49,10 @@ passport.serializeUser((user, cb) => {
   cb(null, user.id); //驗證通過-接住user物件，取出user-id 存到session
 });
 passport.deserializeUser((id, cb) => {
-  User.findById(id, (err, user) => {
-    cb(err, user);
-  });
-});
+  User.findByPk(id).then(user => {
+    return cb(null, user)
+  })
+})
 
 //匯出passport
 module.exports = passport;

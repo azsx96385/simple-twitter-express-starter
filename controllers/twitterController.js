@@ -2,6 +2,7 @@
 const db = require('../models')
 const Tweet = db.Tweet
 const User = db.User
+const hplers = require('../_helpers')
 
 
 const twitterController = {
@@ -29,16 +30,20 @@ const twitterController = {
   postTwitters: (req, res) => {
     //推文字數不能超過140 或 空白
     if (req.body.content === '' || req.body.content.length > 5) {
+      console.log(helpers.getUser(req))
       return res.redirect('/tweets')
-
     }
     else {
       Tweet.create({
         description: req.body.content,
         UserId: helpers.getUser(req)
+
       })
+
+      return res.render('tweets')
     }
-    return res.render('tweets')
+
+
   }
 }
 module.exports = twitterController
