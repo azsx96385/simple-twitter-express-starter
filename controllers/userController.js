@@ -72,7 +72,7 @@ const userController = {
         },
         { model: User, as: 'Followings' },
         { model: User, as: 'Followers' },
-        { model: Tweet, as: 'likedTweets' }
+        { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
       let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt)
@@ -88,7 +88,7 @@ const userController = {
         Tweet,
         { model: User, as: 'Followings' },
         { model: User, as: 'Followers' },
-        { model: Tweet, as: 'likedTweets' }
+        { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
       let userFollowings = user.Followings.sort((a, b) => b.createAt - a.createAt)
@@ -99,10 +99,37 @@ const userController = {
 
   },
   getUserFollowers: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        { model: Tweet, as: 'LikedTweets' }
+      ]
+    }).then(user => {
+      let userFollowers = user.Followers.sort((a, b) => b.createAt - a.createAt)
+
+      return res.render('userFollower', { user: user, userFollowers: userFollowers })
+    })
+
 
   },
-  getUserlikes: (req, res) => {
+  getUserLikes: (req, res) => {
 
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        { model: Tweet, as: 'LikedTweets', include: [User] }
+      ]
+    }).then(user => {
+      let userLikedTweets = user.LikedTweets.sort((a, b) => b.createAt - a.createAt)
+
+
+      return res.render('userLike', { user: user, userLikedTweets: userLikedTweets })
+
+    })
 
   },
   follow: (req, res) => {
@@ -111,7 +138,6 @@ const userController = {
       FollowingId: req.body.FollowingId
     }).then(
       () => {
-
         let id = req.body.FollowingId
         return res.redirect(`users/${id}}/tweets`)
       }

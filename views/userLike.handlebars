@@ -16,17 +16,17 @@
 
   </div>
   <div class="col">
-    {{#each userTweets}}
+    {{#each userLikedTweets}}
     <div class="row border border-dark">
       <div class=" col mt-2 mb-2">
-        <img src="{{../user.avatar}}">
+        <img src="{{this.User.avatar}}">
       </div>
       <div class="col mt-3 mb-3">
-        <a href="/users/{{../user.id}}/tweets">
-          <h5>{{../user.name}}</h5>
+        <a href="/users/{{this.User.id}}/tweets">
+          <h5>{{this.User.name}}</h5>
 
         </a>
-        <span>xx{{this.createdAt}}</span>
+        <span>{{this.createdAt}}</span>
         <p>{{this.description}}
         </p>
 

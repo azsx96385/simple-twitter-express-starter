@@ -53,8 +53,8 @@ module.exports = (app, passport) => {
   app.get('/users/:id/followings', authenticate, userController.getUserFollowings)
   //followers wall
   app.get('/users/:id/followers', userController.getUserFollowers)
-  /*//likes wall(show tweets)
-  app.get('/users/:id/likes', userController.getUserLikes)*/
+  //likes wall(show tweets)
+  app.get('/users/:id/likes', userController.getUserLikes)
 
   app.post('/followships', authenticate, userController.follow)
 };
