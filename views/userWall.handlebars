@@ -11,8 +11,13 @@
     <a href="/users/{{user.id}}/followers" class="d-block"><strong>Follower {{user.Followers.length}}</strong></a>
     <a href="/users/{{user.id}}/likes" class="d-block"><strong>Like {{user.LikedTweets.length}}</strong></a>
     <!--是自己 是edit 是別人follow-->
-    <a href="	/users/{{user.id}}/edit" class="btn" class="d-block">edit</a>
+    {{#ifCond  req.user.id user.id}}
 
+    <a href="	/users/{{user.id}}/edit" class="btn" class="d-block">edit</a>
+    {{else}}
+    <a href="	followships" class="btn" class="d-block">FolloW</a>
+
+    {{/ifCond }}
 
   </div>
   <div class="col">
