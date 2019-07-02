@@ -2,7 +2,11 @@
 const bcrypt = require("bcrypt-nodejs");
 //引入model
 const db = require("../models");
+const helpers = require('../_helpers')
 const User = db.User;
+const Tweet = db.Tweet
+const Reply = db.Reply
+const Follow = db.Followship
 
 //controller 設定區
 const userController = {
@@ -50,25 +54,97 @@ const userController = {
   logIn: (req, res) => {
     //使用 passport 做驗證
     req.flash("success_messages", "成功訊息|你已經成功登入");
-    res.send("你登入拉!!!!");
+    res.redirect('/tweets')
   },
   logOut: (req, res) => {
     req.flash("success_messages", "成功訊息|你已經成功登出");
     req.logout();
     res.redirect("/users/logIn");
   },
+  //profile
   getUserTweets: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        Tweet,
-        { model: User, as: "Followings" },
-        { model: User, as: "Followers" }
+
+        {
+          model: Tweet, include: [Reply, //for 使用者的Tweets的relPy數
+            { model: User, as: 'LikedUsers' }]//for 使用者的Tweets的like數
+        },
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt);
-      console.log(user);
-      return res.render("userWall", { user: user, userTweets: userTweets });
-    });
+      let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt)
+
+      return res.render('userWall', { user: user, userTweets: userTweets })
+
+    })
+
+  },
+  getUserFollowings: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        { model: Tweet, as: 'LikedTweets' }
+      ]
+    }).then(user => {
+      let userFollowings = user.Followings.sort((a, b) => b.createAt - a.createAt)
+
+      return res.render('userFollowing', { user: user, userFollowings: userFollowings })
+    })
+
+
+  },
+  getUserFollowers: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        { model: Tweet, as: 'LikedTweets' }
+      ]
+    }).then(user => {
+      let userFollowers = user.Followers.sort((a, b) => b.createAt - a.createAt)
+
+      return res.render('userFollower', { user: user, userFollowers: userFollowers })
+    })
+
+
+  },
+  getUserLikes: (req, res) => {
+
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' },
+        {
+          model: Tweet, as: 'LikedTweets', include: [User, Reply,
+            { model: User, as: 'LikedUsers' }]
+        }
+      ]
+    }).then(user => {
+      let userLikedTweets = user.LikedTweets.sort((a, b) => b.createAt - a.createAt)
+
+
+      return res.render('userLike', { user: user, userLikedTweets: userLikedTweets })
+
+    })
+
+  },
+  follow: (req, res) => {
+    return Follow.create({
+      FollowerId: helpers.getUser(req).id,
+      FollowingId: req.body.FollowingId //取得form中 hidden input的值
+    }).then(
+      () => {
+        let id = req.body.FollowingId
+        return res.redirect(`users/${id}}/tweets`)
+      }
+    )
   }
 };
 

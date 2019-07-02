@@ -9,7 +9,7 @@
         Following{{user.Followings.length}}
       </strong></a>
     <a href="/users/{{user.id}}/followers" class="d-block"><strong>Follower {{user.Followers.length}}</strong></a>
-    <a href="/users/{{user.id}}/likes" class="d-block"><strong>Like {{user.LikedTweets.length}}</strong></a>
+    <a href="/users/{{user.id}}/likes" class="d-block"><strong>Like {{user.likedTweets.length}}</strong></a>
     <!--是自己 是edit 是別人follow-->
     {{#ifCond  req.user.id user.id}}
 
@@ -19,27 +19,29 @@
 
     {{/ifCond }}
 
+
   </div>
   <div class="col">
-    {{#each userTweets}}
-    <div class="row border border-dark">
-      <div class=" col mt-2 mb-2">
-        <img src="{{../user.avatar}}">
-      </div>
-      <div class="col mt-3 mb-3">
-        <a href="/users/{{../user.id}}/tweets">
-          <h5>{{../user.name}}</h5>
+    <h1>Following</h1>
+    {{#each userFollowings}}
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}</h5>
 
-        </a>
-        <span>xx{{this.createdAt}}</span>
-        <p>{{this.description}}
+        <p class="card-text">{{this.introduction}}
         </p>
+        <div class="card-body d-flex  flex-row-reverse">
+          <a href="" class="card-link">following</a>
+        </div>
+        <form action="/followships" method="POST">
 
-        <a href="/tweets/{{this.id}}/replies" class="mr-2">Reply</a>
-        <a href="/tweets/{{this.id}}/like">Like</a>
+          <input type="hidden" name="FollowingId" value="{{this.id}}" />
+          <button type="submit" class="btn btn-primary">follow</button>
+        </form>
       </div>
+      {{/each}}
     </div>
-    {{/each}}
+
 
   </div>
 </div>
