@@ -48,6 +48,8 @@ const adminController = {
         FollowersAcount: user.Followers.length,
         LikesAcount: user.likedTweets.length //
       }));
+
+      users = users.sort((a, b) => b.TweetsAcount - a.TweetsAcount);
       res.render("admin_users", { users });
     });
   }
