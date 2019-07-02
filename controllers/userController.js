@@ -68,7 +68,7 @@ const userController = {
 
         {
           model: Tweet, include: [Reply, //for 使用者的Tweets的relPy數
-            { model: User, as: 'likedUsers' }]//for 使用者的Tweets的like數
+            { model: User, as: 'LikedUsers' }]//for 使用者的Tweets的like數
         },
         { model: User, as: 'Followings' },
         { model: User, as: 'Followers' },
@@ -121,7 +121,10 @@ const userController = {
         Tweet,
         { model: User, as: 'Followings' },
         { model: User, as: 'Followers' },
-        { model: Tweet, as: 'LikedTweets', include: [User] }
+        {
+          model: Tweet, as: 'LikedTweets', include: [User, Reply,
+            { model: User, as: 'LikedUsers' }]
+        }
       ]
     }).then(user => {
       let userLikedTweets = user.LikedTweets.sort((a, b) => b.createAt - a.createAt)
@@ -135,7 +138,7 @@ const userController = {
   follow: (req, res) => {
     return Follow.create({
       FollowerId: helpers.getUser(req).id,
-      FollowingId: req.body.FollowingId
+      FollowingId: req.body.FollowingId //取得form中 hidden input的值
     }).then(
       () => {
         let id = req.body.FollowingId

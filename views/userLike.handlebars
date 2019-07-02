@@ -30,8 +30,8 @@
         <p>{{this.description}}
         </p>
 
-        <a href="/tweets/{{this.id}}/replies" class="mr-2">Reply</a>
-        <a href="/tweets/{{this.id}}/like">Like</a>
+        <a href="/tweets/{{this.id}}/replies" class="mr-2">Reply{{this.Replies.length}}</a>
+        <a href="/tweets/{{this.id}}/like">Like{{this.LikedUsers.length}}</a>
       </div>
     </div>
     {{/each}}
