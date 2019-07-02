@@ -14,7 +14,8 @@
             <tbody>
                 {{#each tweets}}
                 <tr>
-                    <th scope="row"></th>
+                    <td><img class="h-25  rounded-circle" src="{{this.User.avatar}}" alt="{{this.User.id}}大頭貼">
+                    </td>
                     <td>{{this.User.name}}</td>
                     <td>{{this.description}}</td>
 
