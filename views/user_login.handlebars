@@ -1,41 +1,41 @@
-<div class="row login">
-    <div class="col-6">
-        <div class="intro">
-            <div class="intro-item">
-                <i class="fas fa-search"></i>
-                跟隨你感興趣的內容。
+<div class="row login    vh100">
+    <div class="col-6  bg-primary text-white  d-flex align-items-stretch">
+        <div class="intro  align-self-center m-auto">
+            <div class="intro-item mb-5">
+                <i class="fas fa-search fa-2x"></i>
+               <p class="d-inline mx-4  h4 font-weight-bold">跟隨你感興趣的內容。</p> 
             </div>
-            <div class="intro-item">
-                <i class="fas fa-users"></i>
-                聽聽大家在談論什麼話題。
+            <div class="intro-item mb-5">
+                <i class="fas fa-users fa-2x"></i>
+               <p class="d-inline mx-3    h4 font-weight-bold">聽聽大家在談論什麼話題。</p> 
             </div>
-            <div class="intro-item">
-                <i class="far fa-comments"></i>
-                加入對話。
+            <div class="intro-item mb-5">
+                <i class="far fa-comments fa-2x"></i>
+                <p class="d-inline mx-3    h4 font-weight-bold">加入對話。</p>  
             </div>
         </div>
     </div>
-    <div class="col-6">
-        <div class="login-form">
+    <div class="col-6  bg-white  d-flex align-items-stretch">
+        <div class="login-form align-self-center  m-auto">
             <div class="login-form-top">
 
                 <form action="/users/logIn" method="POST">
-                    <i class="fab fa-twitter mr-3 "></i>
+                    <i class="fab fa-twitter mr-3 fa-4x text-primary"></i>
                     <div class="form-group d-inline-block">
                         <input type="text" name='email' placeholder="輸入信箱" class="form-control">
                     </div>
                     <div class="form-group d-inline-block">
                         <input type="password" name="password" placeholder="輸入密碼" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-link btn-outline-primary d-inline-block">登入</button>
+                    <button type="submit" class="btn btn-link btn-outline-primary d-inline-block radious">登入</button>
                 </form>
 
             </div>
             <div class="login-form-btm">
-                <h2>看看世界上正在發生的新鮮事</h2>
-                <p>今天就加入Twitter。</p>
-                <a href="/users/signIn" class="btn btn-primary btn-block ">註冊</a>
-                <a href="" class="btn btn-link btn-outline-primary btn-block">登入</a>
+                <h2 class="font-weight-bold mb-5">看看世界上正在發生的新鮮事</h2>
+                <p class="font-weight-bold ">今天就加入Twitter。</p>
+                <a href="/users/signIn" class="btn btn-primary btn-block radious ">註冊</a>
+                <a href="" class="btn btn-link btn-outline-primary btn-block radious">登入</a>
             </div>
         </div>
     </div>

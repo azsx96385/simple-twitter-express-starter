@@ -26,8 +26,8 @@ app.set("view engine", "handlebars");
 app.use(bdParser.urlencoded({ extended: true }));
 
 // //靜態檔案設定
-// app.use(express.static("public"));
-// app.use("/upload", express.static(__dirname + "/upload"));
+app.use(express.static("public"));
+app.use("/upload", express.static(__dirname + "/upload"));
 
 //session
 app.use(

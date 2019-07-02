@@ -39,7 +39,6 @@ const adminController = {
         { model: Tweet, as: "likedTweets" }
       ]
     }).then(users => {
-      console.log(users[0]);
       //處理description | 僅顯示50字元
       //map + operator + 修改description屬性
       users = users.map(user => ({
