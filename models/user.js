@@ -13,10 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  User.associate = function (models) {
+  User.associate = function(models) {
     //設定model 關聯
     //關聯一 | User - tweet | 一對多關係
-    User.hasMany(models.Tweet);
+    User.hasMany(models.Tweet, { as: "userTweets" });
     //關聯一 | User - Reply| 一對多關係
     User.hasMany(models.Reply);
     //關聯二 | User-User | 多對多
@@ -36,9 +36,8 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Tweet, {
       through: models.Like,
       foreignKey: "UserId",
-      as: 'likedTweets'
+      as: "likedTweets"
     });
-
   };
   return User;
 };
