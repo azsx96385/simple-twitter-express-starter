@@ -27,6 +27,11 @@
         <div class="card-body d-flex  flex-row-reverse">
           <a href="" class="card-link">following</a>
         </div>
+        <form action="/followships" method="POST">
+
+          <input type="hidden" name="FollowingId" value="{{this.id}}" />
+          <button type="submit" class="btn btn-primary">follow</button>
+        </form>
       </div>
       {{/each}}
     </div>

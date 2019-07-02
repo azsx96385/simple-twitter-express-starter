@@ -2,9 +2,11 @@
 const bcrypt = require("bcrypt-nodejs");
 //引入model
 const db = require("../models");
+const helpers = require('../_helpers')
 const User = db.User;
 const Tweet = db.Tweet
 const Reply = db.Reply
+const Follow = db.Followship
 
 //controller 設定區
 const userController = {
@@ -103,7 +105,18 @@ const userController = {
 
 
   },
+  follow: (req, res) => {
+    return Follow.create({
+      FollowerId: helpers.getUser(req).id,
+      FollowingId: req.body.FollowingId
+    }).then(
+      () => {
 
+        let id = req.body.FollowingId
+        return res.redirect(`users/${id}}/tweets`)
+      }
+    )
+  }
 };
 
 //匯出controller
