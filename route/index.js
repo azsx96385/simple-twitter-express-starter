@@ -55,6 +55,15 @@ module.exports = (app, passport) => {
   app.get('/users/:id/followers', userController.getUserFollowers)
   //likes wall(show tweets)
   app.get('/users/:id/likes', userController.getUserLikes)
-
+  //follow
   app.post('/followships', authenticate, userController.follow)
+  //unfollow
+  app.delete('/followships/:userId', authenticate, userController.unfollow)
+  //like
+  app.post('/tweets/:id/like', authenticate, userController.like)
+  //unlike 
+
+  //reply頁面
+  // app.get('/tweets/:tweet_id/replies', authenticate, twitterController.replyPage)
+  //reply動作
 };

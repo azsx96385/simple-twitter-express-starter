@@ -7,6 +7,7 @@ const User = db.User;
 const Tweet = db.Tweet
 const Reply = db.Reply
 const Follow = db.Followship
+const Like = db.Like
 
 //controller 設定區
 const userController = {
@@ -65,7 +66,6 @@ const userController = {
   getUserTweets: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-
         {
           model: Tweet, include: [Reply, //for 使用者的Tweets的relPy數
             { model: User, as: 'LikedUsers' }]//for 使用者的Tweets的like數
@@ -75,6 +75,9 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
+      //判斷該user是否follow
+      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
+      //依時間前後排序
       let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt)
 
       return res.render('userWall', { user: user, userTweets: userTweets })
@@ -85,13 +88,26 @@ const userController = {
   getUserFollowings: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        Tweet,
-        { model: User, as: 'Followings' },
+        Tweet, {
+          model: User, as: 'Followings',
+          include: [{ model: User, as: 'Followers' }]//找尋追蹤的user ,在找尋期的追蹤者
+        },
         { model: User, as: 'Followers' },
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      let userFollowings = user.Followings.sort((a, b) => b.createAt - a.createAt)
+      //判斷其是否已follow
+      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
+
+      let userFollowings = user.Followings//取得追蹤中的users
+      //
+      userFollowings = userFollowings.map(followingUser => ({
+        ...followingUser.dataValues,
+        //紀錄是否追蹤過
+        isFollowed: followingUser.Followers.map(d => d.id).includes(req.user.id)
+      }))
+      //依時間前後排序
+      userFollowings = userFollowings.sort((a, b) => b.createAt - a.createAt)
 
       return res.render('userFollowing', { user: user, userFollowings: userFollowings })
     })
@@ -101,13 +117,24 @@ const userController = {
   getUserFollowers: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        Tweet,
-        { model: User, as: 'Followings' },
-        { model: User, as: 'Followers' },
+        Tweet, { model: User, as: 'Followings' },
+        {
+          model: User, as: 'Followers',
+          include: [{ model: User, as: 'Followers' }]
+        },
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      let userFollowers = user.Followers.sort((a, b) => b.createAt - a.createAt)
+      //判斷其是否已follow
+      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
+      let userFollowers = user.Followers
+      userFollowers = userFollowers.map(followedUser => ({
+        ...followedUser.dataValues,
+        //紀錄是否追蹤過
+        isFollowed: followedUser.Followers.map(d => d.id).includes(req.user.id)
+      }))
+      //依時間前後排序
+      userFollowers = userFollowers.sort((a, b) => b.createAt - a.createAt)
 
       return res.render('userFollower', { user: user, userFollowers: userFollowers })
     })
@@ -127,6 +154,9 @@ const userController = {
         }
       ]
     }).then(user => {
+      //判斷其是否已follow
+      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
+      //依時間前後排序
       let userLikedTweets = user.LikedTweets.sort((a, b) => b.createAt - a.createAt)
 
 
@@ -142,10 +172,36 @@ const userController = {
     }).then(
       () => {
         let id = req.body.FollowingId
-        return res.redirect(`users/${id}}/tweets`)
+        return res.redirect('back')
       }
     )
-  }
+  },
+  unfollow: (req, res) => {
+    return Follow.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    })
+      .then((followship) => {
+        followship.destroy()
+          .then((followship) => {
+            return res.redirect('back')
+          })
+      })
+  },
+  like: (req, res) => {
+    return Like.create({
+      UserId: req.user.id,
+      TweetId: req.params.id,
+    })
+      .then(() => {
+        return res.redirect('back')
+      })
+  },
+  replyPage: (req, res) => {
+
+  },
 };
 
 //匯出controller

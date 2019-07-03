@@ -4,7 +4,7 @@
     <h2>{{user.name}}</h2>
     <p>{{user.introduction}}</p>
 
-    <a href="#" class="d-block"><strong>Tweets {{user.Tweets.length}}</strong></a>
+    <a href="/users/{{user.id}}/tweets" class="d-block"><strong>Tweets {{user.Tweets.length}}</strong></a>
     <a href="/users/{{user.id}}/followings" class="d-block"><strong>
         Following{{user.Followings.length}}
       </strong></a>
@@ -16,7 +16,17 @@
 
     <a href="	/users/{{user.id}}/edit" class="btn" class="d-block">edit</a>
     {{else}}
-    <a href="	followships" class="btn" class="d-block">FolloW</a>
+    {{#if user.isFollowed}}
+    <form action="/followships/{{user.id}}?_method=Delete" method="POST">
+      <input type="hidden" name="FollowingId" value="{{user.id}}" />
+      <button type="submit" class="btn btn-primary">Unfollow</button>
+    </form>
+    {{else}}
+    <form action="/followships" method="POST">
+      <input type="hidden" name="FollowingId" value="{{user.id}}" />
+      <button type="submit" class="btn btn-primary">follow</button>
+    </form>
+    {{/if}}
 
     {{/ifCond }}
 
@@ -38,7 +48,12 @@
         </p>
 
         <a href="/tweets/{{this.id}}/replies" class="mr-2">Reply{{this.Replies.length}}</a>
-        <a href="/tweets/{{this.id}}/like">Like{{this.LikedUsers.length}}</a>
+
+        <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
+          <button type="submit" lass="btn btn-primary">
+            Like{{this.LikedUsers.length}}
+          </button>
+        </form>
       </div>
     </div>
     {{/each}}

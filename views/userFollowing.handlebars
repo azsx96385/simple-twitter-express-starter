@@ -4,21 +4,28 @@
     <h2>{{user.name}}</h2>
     <p>{{user.introduction}}</p>
 
-    <a href="#" class="d-block"><strong>Tweets {{user.Tweets.length}}</strong></a>
+    <a href="/users/{{user.id}}/tweets" class="d-block"><strong>Tweets {{user.Tweets.length}}</strong></a>
     <a href="/users/{{user.id}}/followings" class="d-block"><strong>
         Following{{user.Followings.length}}
       </strong></a>
     <a href="/users/{{user.id}}/followers" class="d-block"><strong>Follower {{user.Followers.length}}</strong></a>
-    <a href="/users/{{user.id}}/likes" class="d-block"><strong>Like {{user.likedTweets.length}}</strong></a>
+    <a href="/users/{{user.id}}/likes" class="d-block"><strong>Like {{user.LikedTweets.length}}</strong></a>
     <!--是自己 是edit 是別人follow-->
     {{#ifCond  req.user.id user.id}}
-
     <a href="	/users/{{user.id}}/edit" class="btn" class="d-block">edit</a>
     {{else}}
-    <a href="	followships" class="btn" class="d-block">FolloW</a>
-
+    {{#if user.isFollowed}}
+    <form action="/followships/{{user.id}}?_method=Delete" method="POST">
+      <input type="hidden" name="FollowingId" value="{{user.id}}" />
+      <button type="submit" class="btn btn-primary">Unfollow</button>
+    </form>
+    {{else}}
+    <form action="/followships" method="POST">
+      <input type="hidden" name="FollowingId" value="{{user.id}}" />
+      <button type="submit" class="btn btn-primary">follow</button>
+    </form>
+    {{/if}}
     {{/ifCond }}
-
 
   </div>
   <div class="col">
@@ -31,13 +38,19 @@
         <p class="card-text">{{this.introduction}}
         </p>
         <div class="card-body d-flex  flex-row-reverse">
-          <a href="" class="card-link">following</a>
+          {{#if this.isFollowed}}
+          <form action="/followships/{{this.id}}?_method=Delete" method="POST">
+            <input type="hidden" name="FollowingId" value="{{this.id}}" />
+            <button type="submit" class="btn btn-primary">unfollow</button>
+          </form>
+          {{else}}
+          <form action="/followships" method="POST">
+            <input type="hidden" name="FollowingId" value="{{this.id}}" />
+            <button type="submit" class="btn btn-primary">follow</button>
+          </form>
+          {{/if}}
         </div>
-        <form action="/followships" method="POST">
 
-          <input type="hidden" name="FollowingId" value="{{this.id}}" />
-          <button type="submit" class="btn btn-primary">follow</button>
-        </form>
       </div>
       {{/each}}
     </div>
