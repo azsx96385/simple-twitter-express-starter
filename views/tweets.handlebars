@@ -62,6 +62,7 @@
         <h5>{{this.name}}</h5>
         <p>{{this.introduction}}
         </p>
+        <span>{{moment this.createdAt}}</span>
         <div class="text-right">
           {{#ifCond ./req.user.id  this.id}}
 
