@@ -18,7 +18,7 @@ const twitterController = {
     }).then(tweets => {
       //TOP10 Followings users
       return User.findAll({ include: [{ model: User, as: "Followers" }] }).then(users => {
-        //重設定users集合，賦予followerCount 跟 isFollowed
+        //重設定users集合，賦予followerCount 
         users = users.map(user => ({
           ...user.dataValues,
           FolloweCount: user.Followers.length,
@@ -54,6 +54,47 @@ const twitterController = {
     }
 
 
+  },
+  //reply頁面
+  replyPage: (req, res) => {
+    return Tweet.findByPk(req.params.tweet_id, {
+      include: [
+        {
+          model: Reply, include: [
+            User, Tweet]
+        }
+        , {
+          model: User, include: [
+            Tweet,
+            { model: User, as: 'Followings' },
+            { model: User, as: 'Followers' },
+            { model: Tweet, as: 'LikedTweets' }
+          ]
+        },
+        { model: User, as: "LikedUsers" },
+      ]
+    }
+    )
+      .then(tweet => {
+        //重構replies 以時間新舊排序
+        let tweetReplies = tweet.Replies.sort((a, b) => b.FolloweCount - a.FolloweCount)
+        //取出tweet的user
+        const tweetUser = tweet.User
+        //判斷撰寫tweet的user是否已追蹤
+        let isFollowed = tweetUser.id === req.user.id
+        return res.render('tweetReply', { tweetUser, tweetReplies, isFollowed, tweet })
+      }
+      )
+  },
+  reply: (req, res) => {
+    return Reply.create({
+      TweetId: req.params.tweet_id,
+      UserId: req.user.id,
+      comment: req.body.comment
+    })
+      .then(reply => {
+        res.redirect('back')
+      })
   }
 }
 module.exports = twitterController

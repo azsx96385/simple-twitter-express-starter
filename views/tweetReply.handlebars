@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col">
+    <img src="{{tweetUser.avatar}}" alt="{{tweetUser.name}}">
+    <h2>{{tweetUser.name}}</h2>
+    <p>{{tweetUser.introduction}}</p>
+
+    <a href="/users/{{tweetUser.id}}/tweets" class="d-block"><strong>Tweets {{tweetUser.Tweets.length}}</strong></a>
+    <a href="/users/{{tweetUser.id}}/followings" class="d-block"><strong>
+        Following{{tweetUser.Followings.length}}
+      </strong></a>
+    <a href="/users/{{tweetUser.id}}/followers" class="d-block"><strong>Follower
+        {{tweetUser.Followers.length}}</strong></a>
+    <a href="/users/{{tweetUser.id}}/likes" class="d-block"><strong>Like {{tweetUser.LikedTweets.length}}</strong></a>
+    <!--是自己 是edit 是別人follow-->
+    {{#ifCond  req.user.id tweetUser.id}}
+    <a href=" /users/{{tweetUser.id}}/edit" class="btn" class="d-block">edit</a>
+    {{else}}
+    {{#if isFollowed}}
+    <form action="/followships/{{tweetUser.id}}?_method=Delete" method="POST">
+      <input type="hidden" name="FollowingId" value="{{tweetUser.id}}" />
+      <button type="submit" class="btn btn-primary">Unfollow</button>
+    </form>
+    {{else}}
+    <form action="/followships" method="POST">
+      <input type="hidden" name="FollowingId" value="{{tweetUser.id}}" />
+      <button type="submit" class="btn btn-primary">follow</button>
+    </form>
+    {{/if}}
+    {{/ifCond }}
+
+  </div>
+  <div class="col">
+    <div class="row">
+      <h1>Tweets</h1>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class=" col mt-2 mb-2">
+              <img src="{{tweetUser.avatar}}">
+            </div>
+            <div class="col">
+              <a href="/users/{{tweetUser.id}}/tweets">
+                <h5>{{tweetUser.name}}</h5>
+              </a>
+              <span>{{tweet.createdAt}}</span>
+              <p>{{tweet.description}}</p>
+
+              <a href="/tweets/{{tweet.id}}/replies" class="mr-2">Reply{{tweet.Replies.length}}</a>
+              <!--like unlike-->
+              <form action="/tweets/{{tweet.id}}/like" method="POST" style="display: contents;">
+                <button type="submit" lass="btn btn-primary">
+                  Like{{tweet.LikedUsers.length}}
+                </button>
+              </form>
+
+              <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
+                <button type="submit" lass="btn btn-primary">
+                  unLike{{this.LikedUsers.length}}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <h1>Replies </h1>
+      <div class="row">
+        {{#each tweetReplies}}
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class=" col mt-2 mb-2">
+                <img src="{{this.User.avatar}}">
+              </div>
+              <div class="col">
+                <a href="/users/{{this.User.id}}/tweets">
+                  <h5>{{this.User.name}}</h5>
+                </a>
+                <span>{{this.createdAt}}</span>
+                <p>{{this.comment}}</p>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <form action="/tweets/{{tweet.id}}/replies" method="post">
+        <div class="form-group">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment"></textarea>
+          <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+              <button type="submit" class="btn btn-primary">Repy</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

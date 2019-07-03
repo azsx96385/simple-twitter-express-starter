@@ -199,10 +199,23 @@ const userController = {
         return res.redirect('back')
       })
   },
-  replyPage: (req, res) => {
-
+  //unlike
+  unlike: (req, res) => {
+    return Like.destroy({
+      where: {
+        UserId: req.user.id,
+        TweetId: req.params.id,
+      }
+    })
+      .then(() => {
+        return res.redirect('back')
+      })
   },
-};
+  editProfile: (req, res) => {
+
+  }
+
+}
 
 //匯出controller
 module.exports = userController;

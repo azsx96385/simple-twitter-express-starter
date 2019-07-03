@@ -48,10 +48,16 @@
         </p>
 
         <a href="/tweets/{{this.id}}/replies" class="mr-2">Reply{{this.Replies.length}}</a>
-
+        <!--like unlike-->
         <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
           <button type="submit" lass="btn btn-primary">
             Like{{this.LikedUsers.length}}
+          </button>
+        </form>
+
+        <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
+          <button type="submit" lass="btn btn-primary">
+            unLike{{this.LikedUsers.length}}
           </button>
         </form>
       </div>
