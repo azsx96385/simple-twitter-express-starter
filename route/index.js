@@ -35,6 +35,7 @@ module.exports = (app, passport) => {
   app.get("/users/logOut", userController.logOut);
   //[管理者  推文總攬 | 使用者總攬]==========================
   app.get("/admin/tweets", authenticate, adminController.tweetsPage);
+  app.post("/admin/tweets", authenticate, adminController.getSearchUser);
   app.delete("/admin/tweets/:id", authenticate, adminController.deleteTweets);
   app.get("/admin/users", authenticate, adminController.usersPage);
   ///---------------------------------
@@ -50,9 +51,11 @@ module.exports = (app, passport) => {
   app.get("/users/:id/tweets", authenticate, userController.getUserTweets);
 
   //following wall
+
   app.get('/users/:id/followings', authenticate, userController.getUserFollowings)
   //followers wall
   app.get('/users/:id/followers', userController.getUserFollowers)
+
   //likes wall(show tweets)
   app.get('/users/:id/likes', userController.getUserLikes)
   //follow

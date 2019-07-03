@@ -26,8 +26,8 @@ app.set("view engine", "handlebars");
 app.use(bdParser.urlencoded({ extended: true }));
 
 // //靜態檔案設定
-// app.use(express.static("public"));
-// app.use("/upload", express.static(__dirname + "/upload"));
+app.use(express.static("public"));
+app.use("/upload", express.static(__dirname + "/upload"));
 
 //session
 app.use(
@@ -49,7 +49,12 @@ app.use(methodOverride("_method"));
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash("success_messages");
   res.locals.error_messages = req.flash("error_messages");
-  res.locals.user = helpers.getUser(req)
+//feature/shang3
+  //res.locals.user = helpers.getUser(req)
+
+  res.locals.user = req.user;
+  res.locals.isAuthenticated = req.isAuthenticated();
+
   next();
 });
 
