@@ -64,7 +64,7 @@
         </p>
         <span>{{moment this.createdAt}}</span>
         <div class="text-right">
-          {{#ifCond ./req.user.id  this.id}}
+          {{#ifCond  ../loginUser.id  this.id}}
 
           <a href="	/users/{{this.id}}/edit" class="btn" class="d-block">edit</a>
           {{else}}

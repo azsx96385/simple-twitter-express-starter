@@ -67,7 +67,7 @@ const userController = {
     return User.findByPk(req.params.id, {
       include: [
         {
-          model: Tweet, include: [Reply, //for 使用者的Tweets的relPy數
+          model: Tweet, as: 'UserTweets', include: [Reply, //for 使用者的Tweets的relPy數
             { model: User, as: 'LikedUsers' }]//for 使用者的Tweets的like數
         },
         { model: User, as: 'Followings' },
@@ -78,7 +78,7 @@ const userController = {
       //判斷該user是否follow
       user.isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id)
       //依時間前後排序
-      let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt)
+      let userTweets = user.UserTweets.sort((a, b) => b.createAt - a.createAt)
       //重構tweets資料，加入isLiked
       userTweets = userTweets.map(tweet => ({
         ...tweet.dataValues,
@@ -93,7 +93,8 @@ const userController = {
   getUserFollowings: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        Tweet, {
+        { model: Tweet, as: 'UserTweets' }
+        , {
           model: User, as: 'Followings',
           include: [{ model: User, as: 'Followers' }]//找尋追蹤的user ,在找尋期的追蹤者
         },
@@ -122,7 +123,8 @@ const userController = {
   getUserFollowers: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        Tweet, { model: User, as: 'Followings' },
+        { model: Tweet, as: 'UserTweets' },
+        { model: User, as: 'Followings' },
         {
           model: User, as: 'Followers',
           include: [{ model: User, as: 'Followers' }]
@@ -150,7 +152,7 @@ const userController = {
 
     return User.findByPk(req.params.id, {
       include: [
-        Tweet,
+        { model: Tweet, as: 'UserTweets' },
         { model: User, as: 'Followings' },
         { model: User, as: 'Followers' },
         {

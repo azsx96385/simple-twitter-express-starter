@@ -73,10 +73,10 @@ const adminController = {
     //user 為核心，跟tweet 調推文數| 跟 followship 調 followings followers | 跟 like 調讚數
     User.findAll({
       include: [
-        { model: Tweet, as: "userTweets" },
+        { model: Tweet, as: "UserTweets" },
         { model: User, as: "Followings" },
         { model: User, as: "Followers" },
-        { model: Tweet, as: "likedTweets" }
+        { model: Tweet, as: "LikedTweets" }
       ]
     }).then(users => {
       //處理description | 僅顯示50字元

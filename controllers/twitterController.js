@@ -79,7 +79,7 @@ const twitterController = {
         }
         , {
           model: User, include: [
-            Tweet,
+            { model: Tweet, as: 'UserTweets' },
             { model: User, as: 'Followings' },
             { model: User, as: 'Followers' },
             { model: Tweet, as: 'LikedTweets' }
