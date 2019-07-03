@@ -76,7 +76,7 @@ const userController = {
       ]
     }).then(user => {
       //判斷該user是否follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
+      user.isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id)
       //依時間前後排序
       let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt)
 

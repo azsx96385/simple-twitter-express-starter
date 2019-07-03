@@ -53,9 +53,9 @@
                 </button>
               </form>
 
-              <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
+              <form action="/tweets/{{tweet.id}}/unlike" method="POST" style="display: contents;">
                 <button type="submit" lass="btn btn-primary">
-                  unLike{{this.LikedUsers.length}}
+                  unLike{{tweet.LikedUsers.length}}
                 </button>
               </form>
             </div>

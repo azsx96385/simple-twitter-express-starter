@@ -16,13 +16,21 @@ const twitterController = {
         { model: User, as: 'LikedUsers' }
       ]
     }).then(tweets => {
+      //重製tweets資料，加上isLiked
+      tweets = tweets.map(tweet => ({
+        ...tweet.dataValues,
+        //紀錄是否被like
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id)
+
+      }))
+      console.log(tweets)
       //TOP10 Followings users
       return User.findAll({ include: [{ model: User, as: "Followers" }] }).then(users => {
-        //重設定users集合，賦予followerCount 
+        //重設定users集合，賦予followerCount與isFollowed 
         users = users.map(user => ({
           ...user.dataValues,
           FolloweCount: user.Followers.length,
-
+          isFollowed: user.Followers.map(d => d.id).includes(req.user.id)
         }))
         //依followerCount sort users
         users = users.sort((a, b) => b.FolloweCount - a.FolloweCount)

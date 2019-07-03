@@ -48,18 +48,24 @@
         </p>
 
         <a href="/tweets/{{this.id}}/replies" class="mr-2">Reply{{this.Replies.length}}</a>
-        <!--like unlike-->
-        <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
-          <button type="submit" lass="btn btn-primary">
-            Like{{this.LikedUsers.length}}
-          </button>
-        </form>
 
+        <!--like unlike-->
+        {{#if this.isLiked}}
         <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
-          <button type="submit" lass="btn btn-primary">
-            unLike{{this.LikedUsers.length}}
+          <button type="submit" class="btn btn-link">
+            <i class="far fa-heart" aria-hidden></i>
+            {{this.LikedUsers.length}}
           </button>
+
         </form>
+        {{else}}
+        <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
+          <button type="submit" class="btn btn-link">
+            <i class="fa fa-heart" aria-hidden="true"></i>
+            {{this.LikedUsers.length}}
+          </button>
+
+          {{/if}}
       </div>
     </div>
     {{/each}}
