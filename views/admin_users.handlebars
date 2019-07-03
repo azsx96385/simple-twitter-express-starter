@@ -6,7 +6,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">User</th>
                     <th scope="col">Tweets</th>
                     <th scope="col">Followings</th>
@@ -17,9 +17,10 @@
             <tbody>
                 {{#each users}}
                 <tr>
-                    <td><img class="h-25  rounded-circle" src="{{this.avatar}}" alt="{{this.id}}大頭貼">
+                    <td>
                     </td>
-                    <td>{{this.name}}</td>
+                    <td><img class="h-25  rounded-circle mr-2" src="{{this.avatar}}" alt="{{this.id}}大頭貼">{{this.name}}
+                    </td>
                     <td>{{this.TweetsAcount}}</td>
                     <td>{{this.FollowingsAcount}}</td>
                     <td>{{this.FollowersAcount}}</td>

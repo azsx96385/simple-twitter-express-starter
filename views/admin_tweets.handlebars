@@ -2,6 +2,18 @@
 <div class="row">
     <div class="col-1"></div>
     <div class="admiv_tweets col-10">
+        {{!-- 搜尋列表 --}}
+
+        <form action="" method="post">
+            <div class="input-group ml-auto mb-3 w-25">
+                <input type="text" class="radious form-control" placeholder="Enter User name" name="name" id="">
+                <div class="input-group-append ">
+                    <button class="btn btn-primary radious" type="submit">搜</button>
+                </div>
+            </div>
+        </form>
+
+        {{!-- table 區塊 --}}
         <table class="table">
             <thead>
                 <tr>
@@ -14,19 +26,46 @@
             <tbody>
                 {{#each tweets}}
                 <tr>
-                    <td><img class="h-25  rounded-circle" src="{{this.User.avatar}}" alt="{{this.User.id}}大頭貼">
+                    <td>{{this.id}}
                     </td>
-                    <td>{{this.User.name}}</td>
+                    <td><img class="h-25  rounded-circle mr-2" src="{{this.User.avatar}}"
+                            alt="{{this.User.id}}大頭貼">{{this.User.name}}</td>
                     <td>{{this.description}}</td>
 
                     <td>
                         <form action="/admin/tweets/{{this.id}}?_method=DELETE" method="POST">
-                            <button class="btn btn-danger" type="submit">DELETE</button>
+                            <button class="btn btn-danger radious" type="submit">DELETE</button>
                         </form>
                     </td>
                 </tr>
                 {{/each}}
             </tbody>
         </table>
+        {{!-- 分頁區塊 --}}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {{!-- 前頁 --}}
+                <li class="page-item ">
+                    <a class="page-link" href="/admin/tweets?page={{pre}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {{!-- 數字頁 --}}
+                {{#each totalPage}}
+                {{#ifCond this ../page}}
+                <li class="page-item active "><a class="page-link" href="/admin/tweets?page={{this}}">{{this}}</a></li>
+                {{else}}
+                <li class="page-item"><a class="page-link" href="/admin/tweets?page={{this}}">{{this}}</a></li>
+                {{/ifCond}}
+                {{/each}}
+                {{!-- 次頁 --}}
+                <li class="page-item">
+                    <a class="page-link" href="/admin/tweets?page={{next}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
     </div>
 </div>
