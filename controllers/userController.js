@@ -79,7 +79,12 @@ const userController = {
       user.isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id)
       //依時間前後排序
       let userTweets = user.Tweets.sort((a, b) => b.createAt - a.createAt)
-
+      //重構tweets資料，加入isLiked
+      userTweets = userTweets.map(tweet => ({
+        ...tweet.dataValues,
+        //紀錄是否like
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id)
+      }))
       return res.render('userWall', { user: user, userTweets: userTweets })
 
     })
