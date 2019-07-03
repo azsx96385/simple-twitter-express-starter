@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <img src="{{user.avatar}}" alt="{{user.name}}">
-    <h2>{{{user.name}}}</h2>
+    <h2>{{user.name}}</h2>
     <p>{{user.introduction}}</p>
 
     <a href="/users/{{user.id}}/tweets" class="d-block"><strong>Tweets {{user.Tweets.length}}</strong></a>
@@ -11,10 +11,12 @@
     <a href="/users/{{user.id}}/followers" class="d-block"><strong>Follower {{user.Followers.length}}</strong></a>
     <a href="/users/{{user.id}}/likes" class="d-block"><strong>Like {{user.LikedTweets.length}}</strong></a>
     <!--是自己 是edit 是別人follow-->
-    {{#ifCond  User.id user.id}}
+
+    {{#ifCond  req.user.id user.id}}
+
     <a href="	/users/{{user.id}}/edit" class="btn" class="d-block">edit</a>
     {{else}}
-    {{#if player.isFollowed}}
+    {{#if user.isFollowed}}
     <form action="/followships/{{user.id}}?_method=Delete" method="POST">
       <input type="hidden" name="FollowingId" value="{{user.id}}" />
       <button type="submit" class="btn btn-primary">Unfollow</button>
@@ -28,16 +30,17 @@
 
     {{/ifCond }}
 
+
   </div>
   <div class="col">
-    {{#each userTweets}}
+    {{#each userLikedTweets}}
     <div class="row border border-dark">
       <div class=" col mt-2 mb-2">
-        <img src="{{../user.avatar}}">
+        <img src="{{this.User.avatar}}">
       </div>
       <div class="col mt-3 mb-3">
-        <a href="/users/{{../user.id}}/tweets">
-          <h5>{{../user.name}}</h5>
+        <a href="/users/{{this.User.id}}/tweets">
+          <h5>{{this.User.name}}</h5>
 
         </a>
         <span>{{moment this.createdAt}}</span>
@@ -63,8 +66,6 @@
           </button>
 
           {{/if}}
-
-
       </div>
     </div>
     {{/each}}
