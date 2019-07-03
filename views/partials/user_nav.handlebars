@@ -1,0 +1,15 @@
+<nav class="navbar  navbar-light bg-light d-flex justify-content-between">
+    <div class="user_nav_left">
+        <a class="navbar-brand" href="#">
+            <i class="fab fa-twitter mr-3 fa-2x text-primary"></i>
+        </a>
+        {{!-- 加在這裡 --}}
+    </div>
+    <div class="user_nav_right">
+
+        {{#if isAuthenticated}}
+        <a class="mr-3" href="/admin/tweets">Admin</a>
+        {{/if}}
+        <a class="mr-3" href="/users/logOut">Logout</a>
+    </div>
+</nav>
