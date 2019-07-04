@@ -85,10 +85,10 @@ const adminController = {
       users = users.map(user => ({
         ...user.dataValues,
         userIndex: userIndex++,
-        TweetsAcount: user.userTweets.length,
+        TweetsAcount: user.UserTweets.length,
         FollowingsAcount: user.Followings.length,
         FollowersAcount: user.Followers.length,
-        LikesAcount: user.likedTweets.length //
+        LikesAcount: user.LikedTweets.length //
       }));
 
       //生成user 陣列

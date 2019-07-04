@@ -4,16 +4,16 @@ module.exports = (sequelize, DataTypes) => {
     "User",
     {
       //設定欄位屬性
+      name: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      name: DataTypes.STRING,
       avatar: DataTypes.STRING,
       introduction: DataTypes.STRING,
       role: DataTypes.STRING
     },
     {}
   );
-  User.associate = function (models) {
+  User.associate = function(models) {
     //設定model 關聯
     //關聯一 | User - tweet | 一對多關係
     User.hasMany(models.Tweet, { as: "UserTweets" });
