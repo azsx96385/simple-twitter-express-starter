@@ -3,27 +3,40 @@ const db = require('../models')
 const Tweet = db.Tweet
 const User = db.User
 const Reply = db.Reply
-
+const pageLimit = 10
 const helpers = require('../_helpers')
 
 
 const twitterController = {
   getTwitters: (req, res) => {
+    let offset = 0
+
+    if (req.query.page) {
+      offset = (req.query.page - 1) * pageLimit
+    }
+
     //看到所有的推文
-    Tweet.findAll({
+    Tweet.findAndCountAll({
       include: [User,
         Reply,
         { model: User, as: 'LikedUsers' }
-      ]
-    }).then(tweets => {
+      ], offset: offset, limit: pageLimit
+    }).then(result => {
+      // data for pagination
+      let page = Number(req.query.page) || 1
+      let pages = Math.ceil(result.count / pageLimit)
+      let totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
+      let prev = page - 1 < 1 ? 1 : page - 1
+      let next = page + 1 > pages ? pages : page + 1
       //重製tweets資料，加上isLiked
+      let tweets = result.rows
       tweets = tweets.map(tweet => ({
         ...tweet.dataValues,
         //紀錄是否被like
         isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id)
 
       }))
-      console.log(tweets)
+
       //TOP10 Followings users
       return User.findAll({ include: [{ model: User, as: "Followers" }] }).then(users => {
         //重設定users集合，賦予followerCount與isFollowed 
@@ -36,7 +49,12 @@ const twitterController = {
         users = users.sort((a, b) => b.FolloweCount - a.FolloweCount)
         //取前十名
         users = users.slice(0, 10)
-        return res.render('tweets', { tweets: tweets, users: users })
+        return res.render('tweets', {
+          tweets: tweets, users: users,
+          totalPage: totalPage,
+          prev: prev,
+          next: next
+        })
       }
       )
     })
