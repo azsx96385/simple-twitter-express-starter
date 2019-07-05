@@ -1,39 +1,16 @@
-
 <div class="row d-flex justify-content-around">
   <div class="col-2 user_profile_left">
     {{> user_profile_left }}
   </div>
-  <div class="col-6">
+  <div class="col-7">
     <h1>Following</h1>
-    {{#each userFollowings}}
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">{{this.name}}</h5>
-
-        <p class="card-text">{{this.introduction}}
-        </p>
-        <div class="card-body d-flex  flex-row-reverse">
-          {{#ifCond ../loginUser.id this.id}}
-          <a href="	/users/{{user.id}}/edit" class="btn btn-primary" class="d-block">edit</a>
-          {{else}}
-          {{#if this.isFollowed}}
-          <form action="/followships/{{this.id}}?_method=Delete" method="POST">
-            <input type="hidden" name="FollowingId" value="{{this.id}}" />
-            <button type="submit" class="btn btn-primary">unfollow</button>
-          </form>
-          {{else}}
-          <form action="/followships" method="POST">
-            <input type="hidden" name="FollowingId" value="{{this.id}}" />
-            <button type="submit" class="btn btn-primary">follow</button>
-          </form>
-          {{/if}}
-          {{/ifCond }}
-        </div>
-
-      </div>
+    <div class="row">
+      {{#each userFollowings}}
+      {{> user_card_min}}
       {{/each}}
     </div>
-
-
   </div>
+
+
+</div>
 </div>

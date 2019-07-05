@@ -97,6 +97,10 @@ const adminController = {
       // )
 
       users = users.sort((a, b) => b.TweetsAcount - a.TweetsAcount);
+      for (let i = 0; i < users.length; i++) {
+        users[i].no = i + 1;
+      }
+
       res.render("admin_users", { users });
     });
   }

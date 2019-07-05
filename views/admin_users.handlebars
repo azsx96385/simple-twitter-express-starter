@@ -1,7 +1,7 @@
 {{> admin_nav }}
 {{> message }}
-<div class="row">
-    <div class="col-1"></div>
+<div class="row d-flex justify-content-center">
+
     <div class="admiv_tweets col-10">
         <table class="table">
             <thead>
@@ -17,7 +17,7 @@
             <tbody>
                 {{#each users}}
                 <tr>
-                    <td>
+                    <td>{{this.no}}
                     </td>
                     <td><img class="h-25  rounded-circle mr-2" src="{{this.avatar}}" alt="{{this.id}}大頭貼">{{this.name}}
                     </td>

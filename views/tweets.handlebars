@@ -1,4 +1,4 @@
-<div class="row my-5 d-flex   justify-content-around">
+<div class="row my-5 d-flex   justify-content-center">
   {{!-- 左側-tweet-block --}}
   <div class="col-6">
     <form action="/tweets" method="post">
@@ -25,41 +25,13 @@
   </div>
 
   {{!-- 右側-popular-block --}}
-  <div class="col-3 mr-2">
+  <div class="col-3 ml-3">
     <h2>Popular</h2>
-
-    {{#each users}}
-    <div class="row border border-secondary radious my-3">
-      <div class=" col mt-2 mb-2">
-        <img class="rounded-circle" src="{{this.avatar}}">
-      </div>
-      <div class="col mt-3 mb-3">
-        <h5>{{this.name}}</h5>
-        <p>{{this.introduction}}
-        </p>
-        <span>{{moment this.createdAt}}</span>
-        <div class="text-right">
-          {{#ifCond  ../loginUser.id  this.id}}
-
-          <a href="	/users/{{this.id}}/edit" class="btn btn-primary" class="d-block">edit</a>
-          {{else}}
-          {{#if this.isFollowed}}
-          <form action="/followships/{{this.id}}?_method=Delete" method="POST">
-            <input type="hidden" name="FollowingId" value="{{this.id}}" />
-            <button type="submit" class="btn btn-primary">Unfollow</button>
-          </form>
-          {{else}}
-          <form action="/followships" method="POST">
-            <input type="hidden" name="FollowingId" value="{{this.id}}" />
-            <button type="submit" class="btn btn-primary">follow</button>
-          </form>
-          {{/if}}
-          {{/ifCond}}
-        </div>
-      </div>
+    <div class="row">
+      {{#each users}}
+      {{> user_card_mid}}
+      {{/each}}
     </div>
-    {{/each}}
-
   </div>
 
 </div>
