@@ -5,12 +5,12 @@ const db = require("../models");
 const helpers = require("../_helpers");
 const User = db.User;
 
-const Tweet = db.Tweet
-const Reply = db.Reply
-const Follow = db.Followship
-const Like = db.Like
-const imgur = require('imgur-node-api')
-const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const Tweet = db.Tweet;
+const Reply = db.Reply;
+const Follow = db.Followship;
+const Like = db.Like;
+const imgur = require("imgur-node-api");
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
 
 //controller 設定區
 const userController = {
@@ -202,14 +202,9 @@ const userController = {
     return Follow.create({
       FollowerId: helpers.getUser(req).id,
       FollowingId: req.body.FollowingId //取得form中 hidden input的值
-
-    }).then(
-      () => {
-
-        return res.redirect('back')
-      }
-    )
-
+    }).then(data => {
+      return res.redirect("back");
+    });
   },
   unfollow: (req, res) => {
     return Follow.destroy({
@@ -217,12 +212,9 @@ const userController = {
         followerId: req.user.id,
         followingId: req.params.userId
       }
-
-    })
-      .then((followship) => {
-        return res.redirect('back')
-      })
-
+    }).then(followship => {
+      return res.redirect("back");
+    });
   },
   like: (req, res) => {
     return Like.create({
@@ -245,53 +237,49 @@ const userController = {
   },
 
   editProfilePage: (req, res) => {
-    return User.findByPk(req.params.id)
-      .then(user => {
-        return res.render('editProfile', { user })
-      })
+    return User.findByPk(req.params.id).then(user => {
+      return res.render("editProfile", { user });
+    });
   },
   editProfile: (req, res) => {
     //name為空白的例外處理
     if (!req.body.name) {
-      flash('error_messages', '請輸入你的名稱')
-      return res.redirectO('back')
+      flash("error_messages", "請輸入你的名稱");
+      return res.redirectO("back");
     }
 
-    const { file } = req
+    const { file } = req;
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID);
       imgur.upload(file.path, (err, img) => {
-        return User.findByPk(req.params.id)
-          .then((user) => {
-            user.update({
+        return User.findByPk(req.params.id).then(user => {
+          user
+            .update({
               name: req.body.name,
               introduction: req.body.introduction,
-              avatar: file ? img.data.link : user.avatar,
+              avatar: file ? img.data.link : user.avatar
             })
-              .then((user) => {
-                req.flash('success_messages', 'user was successfully to update')
-                res.redirect('/tweets')
-              })
-          })
-      })
-    }
-    else
-      return User.findByPk(req.params.id)
-        .then((user) => {
-          user.update({
+            .then(user => {
+              req.flash("success_messages", "user was successfully to update");
+              res.redirect("/tweets");
+            });
+        });
+      });
+    } else
+      return User.findByPk(req.params.id).then(user => {
+        user
+          .update({
             name: req.body.name,
             introduction: req.body.introduction,
-            avatar: file ? img.data.link : user.avatar,
+            avatar: file ? img.data.link : user.avatar
           })
-            .then((restaurant) => {
-              req.flash('success_messages', 'user was successfully to update')
-              res.redirect('/tweets')
-            })
-        })
-  },
-
-}
-
+          .then(restaurant => {
+            req.flash("success_messages", "user was successfully to update");
+            res.redirect("/tweets");
+          });
+      });
+  }
+};
 
 //匯出controller
 module.exports = userController;

@@ -9,7 +9,10 @@ const port = 3001;
 
 const handlebars = require("express-handlebars");
 const bdParser = require("body-parser");
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`);
+  console.log("目前環境為", process.env.NODE_ENV);
+});
 //[lib設定]----------------------------------------------------------------------
 //handlebars |view
 app.engine(
@@ -40,10 +43,10 @@ app.use(passport.session());
 //overwrite
 app.use(methodOverride("_method"));
 // 判別開發環境
-if (process.env.NODE_ENV !== 'production') {      // 如果不是 production 模式
-  require('dotenv').config()                      // 使用 dotenv 讀取 .env 檔案
+if (process.env.NODE_ENV !== "production") {
+  // 如果不是 production 模式
+  require("dotenv").config(); // 使用 dotenv 讀取 .env 檔案
 }
-
 
 //[路由區]-------------------------------------------------------------------------------
 
@@ -56,8 +59,8 @@ app.use((req, res, next) => {
   //feature/shang3
   //res.locals.user = helpers.getUser(req)
 
-  res.locals.loginUser = req.user;
-  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.loginUser = helpers.getUser(req);
+  res.locals.isAuthenticated = helpers.ensureAuthenticated(req);
 
   next();
 });

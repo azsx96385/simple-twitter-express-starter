@@ -26,7 +26,7 @@ module.exports = {
     return queryInterface.bulkInsert(
       "Users",
       Array.from({ length: 20 }).map((data, index) => ({
-        name: faker.name.lastName(),
+        name: `user${index + 1}`,
         email: `user${index + 1}@example.com`,
         password: bcrypt.hashSync("123", bcrypt.genSaltSync(10), null),
         avatar: `https://uinames.com/api/photos/male/${index + 1}.jpg`,

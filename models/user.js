@@ -38,6 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "UserId",
       as: "LikedTweets"
     });
+    //關聯四 | user hasmany like
+    User.hasMany(models.Like);
   };
   return User;
 };
