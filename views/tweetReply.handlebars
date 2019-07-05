@@ -12,8 +12,8 @@
         {{tweetUser.Followers.length}}</strong></a>
     <a href="/users/{{tweetUser.id}}/likes" class="d-block"><strong>Like {{tweetUser.LikedTweets.length}}</strong></a>
     <!--是自己 是edit 是別人follow-->
-    {{#ifCond  req.user.id tweetUser.id}}
-    <a href=" /users/{{tweetUser.id}}/edit" class="btn" class="d-block">edit</a>
+    {{#ifCond  loginUser.id tweetUser.id}}
+    <a href=" /users/{{tweetUser.id}}/edit" class="btn btn-primary" class="d-block">edit</a>
     {{else}}
     {{#if isFollowed}}
     <form action="/followships/{{tweetUser.id}}?_method=Delete" method="POST">
