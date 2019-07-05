@@ -1,62 +1,37 @@
-<div class="row">
-  <div class="col">
+<div class="row my-5 d-flex   justify-content-around">
+  {{!-- 左側-tweet-block --}}
+  <div class="col-6">
     <form action="/tweets" method="post">
       <div class="form-group">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="What's on your mind?"
           name="content"></textarea>
         <div class="d-flex flex-row-reverse">
           <div class="p-2">
-            <button type="submit" class="btn btn-primary">Tweet</button>
+            <button type="submit" class="btn btn-primary radious">Tweet</button>
           </div>
         </div>
 
       </div>
     </form>
 
-    <div class="tweets">
+    <div class="tweets ">
       <!--tweetsSection-->
-      {{#each tweets }}
-      <div class="row border border-dark">
-        <div class=" col mt-2 mb-2">
-          <img src="{{this.User.avatar}}">
-        </div>
-        <div class="col mt-3 mb-3">
-          <a href="/users/{{this.User.id}}/tweets">
-            <h5>{{this.User.name}}</h5>
-          </a>
-          <p>{{this.description}}
-          </p>
-          <a href="/tweets/{{this.id}}/replies" class="mr-2">Reply{{this.Replies.length}}</a>
-          <!--like unlike-->
-          {{#if this.isLiked}}
-          <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
-            <button type="submit" class="btn btn-link">
-              <i class="far fa-heart" aria-hidden></i>
-              {{this.LikedUsers.length}}
-            </button>
-
-          </form>
-          {{else}}
-          <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
-            <button type="submit" class="btn btn-link">
-              <i class="fa fa-heart" aria-hidden="true"></i>
-              {{this.LikedUsers.length}}
-            </button>
-
-            {{/if}}
-        </div>
+      <div class="row">
+        {{#each tweets}}
+        {{> user_card_index}}
+        {{/each}}
       </div>
-      {{/each}}
     </div>
-
   </div>
-  <div class="col">
+
+  {{!-- 右側-popular-block --}}
+  <div class="col-3 mr-2">
     <h2>Popular</h2>
 
     {{#each users}}
-    <div class="row border border-dark">
+    <div class="row border border-secondary radious my-3">
       <div class=" col mt-2 mb-2">
-        <img src="{{this.avatar}}">
+        <img class="rounded-circle" src="{{this.avatar}}">
       </div>
       <div class="col mt-3 mb-3">
         <h5>{{this.name}}</h5>

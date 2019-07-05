@@ -1,0 +1,42 @@
+<div class="col-12 user_card  border my-2 radious">
+    <div class="row">
+        {{!-- 用戶卡片-頭貼 --}}
+        <div class="user_card_pic col-3 my-2">
+            <img class="rounded-circle w-100" src="{{this.user_avatar}}">
+        </div>
+        {{!-- 用戶卡片-基本資料 --}}
+        <div class="user_card_info col-9 my-3 d-flex flex-column justify-content-between">
+            {{!-- 標題 --}}
+            <div class="info_header ">
+                <a class="d-inline" href="/users/{{this.user_id}}/tweets">
+                    <h3 class="d-inline">{{this.user_name}}</h3>
+                </a>
+                <p class="d-inline ml-5 pt-2 text-secondary float-right"> {{#moment this.createdAt}}{{/moment}}</p>
+            </div>
+            {{!-- 內文 --}}
+            <div class="info_description flex-grow-1">
+                <p>{{this.description}}
+                </p>
+            </div>
+            {{!-- 社群指標 --}}
+            <div class="info_btns ">
+                <a class="float-right pt-2" href="/tweets/{{this.id}}/replies">Reply {{this.Replies.length}}</a>
+                <!--like unlike-->
+                {{#if this.isLiked}}
+                <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
+                    <button type="submit" class="btn btn-link float-right">
+                        <i class="far fa-heart " aria-hidden></i>
+                        {{this.LikedUsers.length}}
+                    </button>
+                </form>
+                {{else}}
+                <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
+                    <button type="submit" class="btn btn-link float-right">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        {{this.LikedUsers.length}}
+                    </button>
+                    {{/if}}
+            </div>
+        </div>
+    </div>
+</div>

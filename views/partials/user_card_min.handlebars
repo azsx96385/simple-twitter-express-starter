@@ -1,0 +1,36 @@
+<div class="col-6 user_card  border my-2 radious">
+    <div class="row">
+        {{!-- 用戶卡片-頭貼 --}}
+        <div class="user_card_pic col-4 my-2">
+            <img class="rounded-circle w-100" src="{{this.user_avatar}}">
+        </div>
+        {{!-- 用戶卡片-基本資料 --}}
+        <div class="user_card_info col-8 my-3 d-flex flex-column justify-content-between">
+            {{!-- 標題 --}}
+            <div class="info_header ">
+                <a class="d-inline" href="/users/{{this.user_id}}/tweets">
+                    <h3 class="d-inline">{{this.user_name}}</h3>
+                </a>
+                <p class="d-inline ml-5 pt-2 text-secondary float-right"> {{#moment this.createdAt}}{{/moment}}</p>
+            </div>
+            {{!-- 內文 --}}
+            <div class="info_description flex-grow-1">
+                <p>{{this.user_introduction}}
+                </p>
+            </div>
+            {{!-- 社群指標 --}}
+            <div class="info_btns ">
+                {{#if this.isFollowed}}
+                <form class="float-right" action="/followships/{{this.id}}?_method=Delete" method="POST">
+                    <input type="hidden" name="FollowingId" value="{{this.id}}" />
+                    <button type="submit" class="btn btn-primary">unfollow</button>
+                </form>
+                {{else}}
+                <form class="float-right" action="/followships" method="POST">
+                    <input type="hidden" name="FollowingId" value="{{this.id}}" />
+                    <button type="submit" class="btn btn-primary">follow</button>
+                </form>
+                {{/if}}
+            </div>
+        </div>
+    </div>

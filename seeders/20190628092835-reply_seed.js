@@ -2,7 +2,7 @@
 let fakeReply = [];
 for (let i = 1; i < 20; i++) {
   let TweetId = Math.floor(Math.random() * 100);
-  let UserId = Math.floor(Math.random() * 10);
+  let UserId = Math.ceil(Math.random() * 20);
   fakeReply.push(
     {
       UserId: UserId,

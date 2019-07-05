@@ -2,8 +2,9 @@
 const bcrypt = require("bcrypt-nodejs");
 //引入model
 const db = require("../models");
-const helpers = require('../_helpers')
+const helpers = require("../_helpers");
 const User = db.User;
+
 const Tweet = db.Tweet
 const Reply = db.Reply
 const Follow = db.Followship
@@ -57,7 +58,7 @@ const userController = {
   logIn: (req, res) => {
     //使用 passport 做驗證
     req.flash("success_messages", "成功訊息|你已經成功登入");
-    res.redirect('/tweets')
+    res.redirect("/tweets");
   },
   logOut: (req, res) => {
     req.flash("success_messages", "成功訊息|你已經成功登出");
@@ -69,121 +70,146 @@ const userController = {
     return User.findByPk(req.params.id, {
       include: [
         {
-          model: Tweet, as: 'UserTweets', include: [Reply, //for 使用者的Tweets的relPy數
-            { model: User, as: 'LikedUsers' }]//for 使用者的Tweets的like數
+          model: Tweet,
+          as: "UserTweets",
+          include: [
+            Reply, //for 使用者的Tweets的relPy數
+            { model: User, as: "LikedUsers" }
+          ] //for 使用者的Tweets的like數
         },
-        { model: User, as: 'Followings' },
-        { model: User, as: 'Followers' },
-        { model: Tweet, as: 'LikedTweets' }
+        { model: User, as: "Followings" },
+        { model: User, as: "Followers" },
+        { model: Tweet, as: "LikedTweets" }
       ]
     }).then(user => {
       //判斷該user是否follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id)
-      //依時間前後排序
-      let userTweets = user.UserTweets.sort((a, b) => b.createAt - a.createAt)
+      user.isFollowed = user.Followers.map(d => d.id).includes(
+        helpers.getUser(req).id
+      );
+
       //重構tweets資料，加入isLiked
-      userTweets = userTweets.map(tweet => ({
+      let userTweets = user.UserTweets.map(tweet => ({
         ...tweet.dataValues,
+        user_id: user.id,
+        user_avatar: user.avatar,
+        user_name: user.name,
         //紀錄是否like
         isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id)
-      }))
-      return res.render('userWall', { user: user, userTweets: userTweets })
+      }));
+      //依時間前後排序
+      userTweets = userTweets.sort((a, b) => b.createAt - a.createAt);
 
-    })
-
+      return res.render("userWall", { user: user, userTweets: userTweets });
+    });
   },
   getUserFollowings: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        { model: Tweet, as: 'UserTweets' }
-        , {
-          model: User, as: 'Followings',
-          include: [{ model: User, as: 'Followers' }]//找尋追蹤的user ,在找尋期的追蹤者
+        { model: Tweet, as: "UserTweets" },
+        {
+          model: User,
+          as: "Followings",
+          include: [{ model: User, as: "Followers" }] //找尋追蹤的user ,在找尋期的追蹤者
         },
-        { model: User, as: 'Followers' },
-        { model: Tweet, as: 'LikedTweets' }
+        { model: User, as: "Followers" },
+        { model: Tweet, as: "LikedTweets" }
       ]
     }).then(user => {
       //判斷其是否已follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
+      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id);
 
-      let userFollowings = user.Followings//取得追蹤中的users
+      let userFollowings = user.Followings; //取得追蹤中的users
       //
       userFollowings = userFollowings.map(followingUser => ({
         ...followingUser.dataValues,
+        user_id: followingUser.id,
+        user_avatar: followingUser.avatar,
+        user_name: followingUser.name,
+        user_introduction: followingUser.introduction.substring(0, 50),
         //紀錄是否追蹤過
         isFollowed: followingUser.Followers.map(d => d.id).includes(req.user.id)
-      }))
+      }));
       //依時間前後排序
-      userFollowings = userFollowings.sort((a, b) => b.createAt - a.createAt)
+      userFollowings = userFollowings.sort((a, b) => b.createAt - a.createAt);
 
-      return res.render('userFollowing', { user: user, userFollowings: userFollowings })
-    })
-
-
+      return res.render("userFollowing", {
+        user: user,
+        userFollowings: userFollowings
+      });
+    });
   },
   getUserFollowers: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        { model: Tweet, as: 'UserTweets' },
-        { model: User, as: 'Followings' },
+        { model: Tweet, as: "UserTweets" },
+        { model: User, as: "Followings" },
         {
-          model: User, as: 'Followers',
-          include: [{ model: User, as: 'Followers' }]
+          model: User,
+          as: "Followers",
+          include: [{ model: User, as: "Followers" }]
         },
-        { model: Tweet, as: 'LikedTweets' }
+        { model: Tweet, as: "LikedTweets" }
       ]
     }).then(user => {
       //判斷其是否已follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
-      let userFollowers = user.Followers
+      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id);
+      let userFollowers = user.Followers;
+      //console.log("----------------", userFollowers[0]);
       userFollowers = userFollowers.map(followedUser => ({
         ...followedUser.dataValues,
+        user_id: followedUser.id,
+        user_avatar: followedUser.avatar,
+        user_name: followedUser.name,
+        user_introduction: followedUser.introduction.substring(0, 50),
         //紀錄是否追蹤過
         isFollowed: followedUser.Followers.map(d => d.id).includes(req.user.id)
-      }))
+      }));
       //依時間前後排序
-      userFollowers = userFollowers.sort((a, b) => b.createAt - a.createAt)
-
-      return res.render('userFollower', { user: user, userFollowers: userFollowers })
-    })
-
-
+      userFollowers = userFollowers.sort((a, b) => b.createAt - a.createAt);
+      res.render("userFollower", {
+        user: user,
+        userFollowers: userFollowers
+      });
+    });
   },
   getUserLikes: (req, res) => {
-
     return User.findByPk(req.params.id, {
       include: [
-        { model: Tweet, as: 'UserTweets' },
-        { model: User, as: 'Followings' },
-        { model: User, as: 'Followers' },
+        { model: Tweet, as: "UserTweets" },
+        { model: User, as: "Followings" },
+        { model: User, as: "Followers" },
         {
-          model: Tweet, as: 'LikedTweets', include: [User, Reply,
-            { model: User, as: 'LikedUsers' }]
+          model: Tweet,
+          as: "LikedTweets",
+          include: [User, Reply, { model: User, as: "LikedUsers" }]
         }
       ]
     }).then(user => {
       //判斷其是否已follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id)
+      user.isFollowed = user.Followers.map(d => d.id).includes(req.user.id);
       //依時間前後排序
-      let userLikedTweets = user.LikedTweets.sort((a, b) => b.createAt - a.createAt)
+      let userLikedTweets = user.LikedTweets.sort(
+        (a, b) => b.createAt - a.createAt
+      );
 
-
-      return res.render('userLike', { user: user, userLikedTweets: userLikedTweets })
-
-    })
-
+      return res.render("userLike", {
+        user: user,
+        userLikedTweets: userLikedTweets
+      });
+    });
   },
   follow: (req, res) => {
     return Follow.create({
       FollowerId: helpers.getUser(req).id,
       FollowingId: req.body.FollowingId //取得form中 hidden input的值
+
     }).then(
       () => {
 
         return res.redirect('back')
       }
     )
+
   },
   unfollow: (req, res) => {
     return Follow.destroy({
@@ -191,32 +217,33 @@ const userController = {
         followerId: req.user.id,
         followingId: req.params.userId
       }
+
     })
       .then((followship) => {
         return res.redirect('back')
       })
+
   },
   like: (req, res) => {
     return Like.create({
       UserId: req.user.id,
-      TweetId: req.params.id,
-    })
-      .then(() => {
-        return res.redirect('back')
-      })
+      TweetId: req.params.id
+    }).then(() => {
+      return res.redirect("back");
+    });
   },
   //unlike
   unlike: (req, res) => {
     return Like.destroy({
       where: {
         UserId: req.user.id,
-        TweetId: req.params.id,
+        TweetId: req.params.id
       }
-    })
-      .then(() => {
-        return res.redirect('back')
-      })
+    }).then(() => {
+      return res.redirect("back");
+    });
   },
+
   editProfilePage: (req, res) => {
     return User.findByPk(req.params.id)
       .then(user => {
@@ -264,6 +291,7 @@ const userController = {
   },
 
 }
+
 
 //匯出controller
 module.exports = userController;
