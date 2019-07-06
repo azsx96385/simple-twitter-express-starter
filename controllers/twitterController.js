@@ -34,7 +34,7 @@ const twitterController = {
         //紀錄是否被like
         isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id)
       }));
-      console.log(tweets);
+
 
       //TOP10 Followings users
       return User.findAll({ include: [{ model: User, as: "Followers" }] }).then(
@@ -108,6 +108,9 @@ const twitterController = {
       let tweetReplies = tweet.Replies.sort(
         (a, b) => b.FolloweCount - a.FolloweCount
       );
+
+      //tweet加上isLiked的屬性
+      tweet.isLiked = tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id)
       //取出tweet的user
       const tweetUser = tweet.User;
       //判斷撰寫tweet的user是否已追蹤
