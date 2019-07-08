@@ -42,22 +42,27 @@
               <a href="/users/{{tweetUser.id}}/tweets">
                 <h5>{{tweetUser.name}}</h5>
               </a>
-              <span>{{tweet.createdAt}}</span>
+              <span>{{#moment this.createdAt}}{{/moment}}</span>
               <p>{{tweet.description}}</p>
 
               <a href="/tweets/{{tweet.id}}/replies" class="mr-2">Reply{{tweet.Replies.length}}</a>
               <!--like unlike-->
-              <form action="/tweets/{{tweet.id}}/like" method="POST" style="display: contents;">
-                <button type="submit" lass="btn btn-primary">
-                  Like{{tweet.LikedUsers.length}}
-                </button>
-              </form>
-
+              {{#if tweet.isLiked}}
               <form action="/tweets/{{tweet.id}}/unlike" method="POST" style="display: contents;">
-                <button type="submit" lass="btn btn-primary">
-                  unLike{{tweet.LikedUsers.length}}
+                <button type="submit" class="btn btn-link float-right">
+                  <i class="far fa-heart " aria-hidden></i>
+                  {{tweet.LikedUsers.length}}
                 </button>
               </form>
+              {{else}}
+              <form action="/tweets/{{tweet.id}}/likes" method="POST" style="display: contents;">
+                <button type="submit" class="btn btn-link float-right">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                  {{tweet.LikedUsers.length}}
+                </button>
+              </form>
+              {{/if}}
+
             </div>
           </div>
         </div>

@@ -65,7 +65,7 @@ module.exports = (app, passport) => {
   //unfollow
   app.delete('/followships/:userId', authenticate, userController.unfollow)
   //like
-  app.post('/tweets/:id/like', authenticate, userController.like)
+  app.post('/tweets/:id/likes', authenticate, userController.like)
   //unlike 
   app.post('/tweets/:id/unlike', authenticate, userController.unlike)
   //編輯個人葉面
