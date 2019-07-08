@@ -20,7 +20,11 @@
                 </p>
             </div>
             {{!-- 社群指標 --}}
+
             <div class="info_btns mt-3">
+                {{#ifCond  ../loginUser.id  this.id}}
+                <a href=" /users/{{this.id}}/edit" class="btn btn-primary" class="d-block">edit</a>
+                {{else}}
                 {{#if this.isFollowed}}
                 <form class="float-right" action="/followships/{{this.id}}?_method=Delete" method="POST">
                     <input type="hidden" name="FollowingId" value="{{this.id}}" />
@@ -32,6 +36,7 @@
                     <button type="submit" class="btn btn-primary">follow</button>
                 </form>
                 {{/if}}
+                {{/ifCond}}
             </div>
         </div>
     </div>
