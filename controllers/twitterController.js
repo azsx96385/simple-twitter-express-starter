@@ -53,7 +53,7 @@ const twitterController = {
           users = users.sort((a, b) => b.FolloweCount - a.FolloweCount);
           //取前十名
           users = users.slice(0, 10);
-          return res.render("tweets", {
+          return res.render("index", {
             tweets: tweets,
             users: users,
             totalPage: totalPage,

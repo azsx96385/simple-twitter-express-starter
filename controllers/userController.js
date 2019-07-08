@@ -220,7 +220,7 @@ const userController = {
     return Like.create({
       UserId: req.user.id,
       TweetId: req.params.id
-    }).then(() => {
+    }).then(data => {
       return res.redirect("back");
     });
   },

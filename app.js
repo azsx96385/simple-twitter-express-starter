@@ -6,10 +6,12 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const app = express();
 const port = 3001;
+const db = require("./models");
 
 const handlebars = require("express-handlebars");
 const bdParser = require("body-parser");
 app.listen(port, () => {
+  db.sequelize.sync();
   console.log(`Example app listening on port ${port}!`);
   console.log("目前環境為", process.env.NODE_ENV);
 });
@@ -59,7 +61,7 @@ app.use((req, res, next) => {
   //feature/shang3
   //res.locals.user = helpers.getUser(req)
 
-  res.locals.loginUser = helpers.getUser(req);
+  res.locals.user = helpers.getUser(req);
   res.locals.isAuthenticated = helpers.ensureAuthenticated(req);
 
   next();
