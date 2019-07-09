@@ -64,7 +64,7 @@ describe("# Like Model", () => {
 
     //water- 拿上方新增的空資料的ID
     it("read", done => {
-      console.log("like_model新增後data(read案例)", data);
+      // console.log("like_model新增後data(read案例)", data);
       db.Like.findByPk(data.id).then(like => {
         expect(data.id).to.be.equal(like.id);
         done();
