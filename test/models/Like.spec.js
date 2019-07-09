@@ -55,12 +55,12 @@ describe("# Like Model", () => {
       db.Like.create({}).then(like => {
         data = like;
         //water-測試
-        console.log("like_model新增後like", like);
-        console.log("like_model新增後data", data);
+        // console.log("like_model新增後like", like);
+        // console.log("like_model新增後data", data);
         done();
       });
     });
-    console.log("like_model新增後data(離開測試案例)", data);
+    // console.log("like_model新增後data(離開測試案例)", data);
 
     //water- 拿上方新增的空資料的ID
     it("read", done => {
