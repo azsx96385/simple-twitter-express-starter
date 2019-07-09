@@ -30,7 +30,7 @@
                     </button>
                 </form>
                 {{else}}
-                <form action="/tweets/{{this.id}}/likes" method="POST" style="display: contents;">
+                <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
                     <button type="submit" class="btn btn-link float-right">
                         <i class="fa fa-heart" aria-hidden="true"></i>
                         {{this.LikedUsers.length}}

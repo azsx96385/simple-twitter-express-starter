@@ -4,6 +4,7 @@ const adminController = require("../controllers/adminController");
 const twitterController = require("../controllers/twitterController");
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
+const helpers = require('../_helpers')
 
 //匯入需要model
 
@@ -12,7 +13,7 @@ module.exports = (app, passport) => {
   //[中介曾]
   const authenticate = (req, res, next) => {
     //驗證是否有 passport isAuthenticated
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated(req)) {
       return next();
     }
     res.redirect("/users/logIn");
@@ -65,7 +66,7 @@ module.exports = (app, passport) => {
   //unfollow
   app.delete('/followships/:userId', authenticate, userController.unfollow)
   //like
-  app.post('/tweets/:id/likes', authenticate, userController.like)
+  app.post('/tweets/:id/like', authenticate, userController.like)
   //unlike 
   app.post('/tweets/:id/unlike', authenticate, userController.unlike)
   //編輯個人葉面
