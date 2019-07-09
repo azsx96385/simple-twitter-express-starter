@@ -14,7 +14,7 @@ module.exports = {
           email: `root@example.com`,
           password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
           avatar: `https://uinames.com/api/photos/male/2.jpg`,
-          introduction: faker.lorem.text(),
+          introduction: faker.lorem.words(),
           role: "1",
           createdAt: new Date(),
           updatedAt: new Date()
@@ -30,7 +30,7 @@ module.exports = {
         email: `user${index + 1}@example.com`,
         password: bcrypt.hashSync("123", bcrypt.genSaltSync(10), null),
         avatar: `https://uinames.com/api/photos/male/${index + 1}.jpg`,
-        introduction: faker.lorem.text(),
+        introduction: faker.lorem.words(),
         role: "0",
         createdAt: new Date(),
         updatedAt: new Date()
