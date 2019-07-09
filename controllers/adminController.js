@@ -7,41 +7,51 @@ const Tweet = db.Tweet;
 
 //設定controller
 const adminController = {
+  //推文總攬| Nav 版本 | 無法通過測試-0709註解掉
+  // tweetsPage: (req, res) => {
+  //   //總頁數|上頁|下頁|每頁資料 | 初始值
+  //   let offset = 0;
+  //   let limit = 10;
+  //   //設定偏移量
+  //   if (req.query.page) {
+  //     //請求的頁數
+  //     offset = (req.query.page - 1) * limit;
+  //   }
+  //   //開始調用資料 | 指定 偏移量 + limit
+  //   Tweet.findAndCountAll({
+  //     include: [User],
+  //     limit: limit,
+  //     offset: offset
+  //   }).then(tweets => {
+  //     //取得當前頁碼
+  //     let page = Number(req.query.page) || 1;
+  //     //取得總頁碼
+  //     let pages = Math.ceil(tweets.count / limit);
+  //     //製造頁碼陣列
+  //     let totalPage = Array.from({ length: pages }).map(
+  //       (item, index) => index + 1
+  //     );
+  //     //計算前頁|次頁頁碼
+  //     let pre = page - 1 < 1 ? page : page - 1;
+  //     let next = page + 1 > pages ? pages : page + 1;
+  //     tweets = tweets.rows.map(tweet => ({
+  //       ...tweet.dataValues,
+  //       description: tweet.dataValues.description.substring(0, 50)
+  //     }));
+  //     res.render("admin_tweets", { tweets, pre, next, totalPage, page });
+  //   });
   //推文總攬
   tweetsPage: (req, res) => {
-    //總頁數|上頁|下頁|每頁資料 | 初始值
-    let offset = 0;
-    let limit = 10;
-    //設定偏移量
-    if (req.query.page) {
-      //請求的頁數
-      offset = (req.query.page - 1) * limit;
-    }
-    //開始調用資料 | 指定 偏移量 + limit
-    Tweet.findAndCountAll({
-      include: [User],
-      limit: limit,
-      offset: offset
-    }).then(tweets => {
-      //取得當前頁碼
-      let page = Number(req.query.page) || 1;
-      //取得總頁碼
-      let pages = Math.ceil(tweets.count / limit);
-      //製造頁碼陣列
-      let totalPage = Array.from({ length: pages }).map(
-        (item, index) => index + 1
-      );
-      //計算前頁|次頁頁碼
-      let pre = page - 1 < 1 ? page : page - 1;
-      let next = page + 1 > pages ? pages : page + 1;
-      tweets = tweets.rows.map(tweet => ({
+    return Tweet.findAll({ include: [User] }).then(tweets => {
+      //console.log(tweets[0]);
+      tweets = tweets.map(tweet => ({
         ...tweet.dataValues,
         description: tweet.dataValues.description.substring(0, 50)
       }));
-
-      res.render("admin_tweets", { tweets, pre, next, totalPage, page });
+      return res.render("admin_tweets", { tweets: tweets });
     });
   },
+
   getSearchUser: (req, res) => {
     let userName = req.body.name;
     User.findOne({ where: { name: userName } }).then(user => {

@@ -15,7 +15,7 @@ module.exports = {
           password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
           avatar: `https://uinames.com/api/photos/male/2.jpg`,
           introduction: faker.lorem.words(),
-          role: "1",
+          role: "admin",
           createdAt: new Date(),
           updatedAt: new Date()
         }
