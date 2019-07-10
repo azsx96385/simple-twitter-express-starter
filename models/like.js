@@ -2,10 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Like = sequelize.define(
     "Like",
-    {
-      UserId: DataTypes.INTEGER,
-      TweetId: DataTypes.INTEGER
-    },
+    { TweetId: DataTypes.INTEGER, UserId: DataTypes.INTEGER },
     {}
   );
   Like.associate = function(models) {

@@ -32,9 +32,10 @@ const twitterController = {
       tweets = tweets.map(tweet => ({
         ...tweet.dataValues,
         //紀錄是否被like
-        isLiked: tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id)
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(
+          helpers.getUser(req).id
+        )
       }));
-
 
       //TOP10 Followings users
       return User.findAll({ include: [{ model: User, as: "Followers" }] }).then(
@@ -44,7 +45,9 @@ const twitterController = {
             ...user.dataValues,
 
             FolloweCount: user.Followers.length,
-            isFollowed: user.Followers.map(d => d.id).includes(helpers.getUser(req).id)
+            isFollowed: user.Followers.map(d => d.id).includes(
+              helpers.getUser(req).id
+            )
           }));
           //依followerCount sort users
           users = users.sort((a, b) => b.FolloweCount - a.FolloweCount);
@@ -64,22 +67,20 @@ const twitterController = {
   //create 新貼文
   postTwitters: (req, res) => {
     //推文字數不能超過140 或 空白
-    if (req.body.content === "") {
+    if (req.body.description === "") {
       req.flash("error_messages", "推文不能為空白！");
       return res.redirect("back");
-    }
-
-    if (req.body.content.length > 140) {
+    } else if (req.body.description.length > 140) {
       req.flash("error_messages", "你的推文不能超過140個字!!");
       return res.redirect("back");
+    } else {
+      return Tweet.create({
+        description: req.body.description,
+        UserId: helpers.getUser(req).id
+      }).then(tweets => {
+        return res.redirect("back");
+      });
     }
-    return Tweet.create({
-      description: req.body.content,
-      UserId: helpers.getUser(req).id
-    }).then(tweets => {
-      return res.redirect("back");
-    });
-
   },
   //reply頁面
   replyPage: (req, res) => {
@@ -102,12 +103,12 @@ const twitterController = {
       ]
     }).then(tweet => {
       //重構replies 以時間新舊排序
-      let tweetReplies = tweet.Replies.sort(
-        (a, b) => b.createAt - a.createAt
-      );
+      let tweetReplies = tweet.Replies.sort((a, b) => b.createAt - a.createAt);
 
       //tweet加上isLiked的屬性
-      tweet.isLiked = tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id)
+      tweet.isLiked = tweet.LikedUsers.map(d => d.id).includes(
+        helpers.getUser(req).id
+      );
       //取出tweet的user
       const tweetUser = tweet.User;
       //判斷撰寫tweet的user是否已追蹤
