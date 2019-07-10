@@ -78,7 +78,7 @@ const twitterController = {
         description: req.body.description,
         UserId: helpers.getUser(req).id
       }).then(tweets => {
-        return res.redirect("back");
+        return res.redirect("/tweets");
       });
     }
   },
