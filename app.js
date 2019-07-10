@@ -61,7 +61,7 @@ app.use((req, res, next) => {
   //feature/shang3
   //res.locals.user = helpers.getUser(req)
 
-  res.locals.user = helpers.getUser(req);
+  res.locals.loginUser = helpers.getUser(req);
   res.locals.isAuthenticated = helpers.ensureAuthenticated(req);
 
   next();
