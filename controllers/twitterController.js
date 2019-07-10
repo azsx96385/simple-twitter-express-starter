@@ -104,7 +104,6 @@ const twitterController = {
     }).then(tweet => {
       //重構replies 以時間新舊排序
       let tweetReplies = tweet.Replies.sort((a, b) => b.createAt - a.createAt);
-
       //tweet加上isLiked的屬性
       tweet.isLiked = tweet.LikedUsers.map(d => d.id).includes(
         helpers.getUser(req).id
@@ -114,7 +113,7 @@ const twitterController = {
       //判斷撰寫tweet的user是否已追蹤
       let isFollowed = tweetUser.id === helpers.getUser(req).id;
       return res.render("tweetReply", {
-        tweetUser,
+        user: tweetUser,
         tweetReplies,
         isFollowed,
         tweet
