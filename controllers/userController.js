@@ -121,15 +121,14 @@ const userController = {
       user.isFollowed = user.Followers.map(d => d.id).includes(
         helpers.getUser(req).id
       );
-
       let userFollowings = user.Followings; //取得追蹤中的users
-      //
+      //console.log("------------------------------", userFollowings);
       userFollowings = userFollowings.map(followingUser => ({
         ...followingUser.dataValues,
         user_id: followingUser.id,
         user_avatar: followingUser.avatar,
         user_name: followingUser.name,
-        user_introduction: followingUser.introduction.substring(0, 50),
+        user_introduction: followingUser.introduction, //.substring(0, 50)
         //紀錄是否追蹤過
         isFollowed: followingUser.Followers.map(d => d.id).includes(
           helpers.getUser(req).id
@@ -168,7 +167,7 @@ const userController = {
         user_id: followedUser.id,
         user_avatar: followedUser.avatar,
         user_name: followedUser.name,
-        user_introduction: followedUser.introduction.substring(0, 50),
+        user_introduction: followedUser.introduction, //.substring(0, 50),
         //紀錄是否追蹤過
         isFollowed: followedUser.Followers.map(d => d.id).includes(
           helpers.getUser(req).id
