@@ -51,20 +51,12 @@ describe("# Like Model", () => {
     let data = null;
 
     it("create", done => {
-      //water- 建立空值-會產生具有ID的空資料
       db.Like.create({}).then(like => {
         data = like;
-        //water-測試
-        // console.log("like_model新增後like", like);
-        // console.log("like_model新增後data", data);
         done();
       });
     });
-    // console.log("like_model新增後data(離開測試案例)", data);
-
-    //water- 拿上方新增的空資料的ID
     it("read", done => {
-      // console.log("like_model新增後data(read案例)", data);
       db.Like.findByPk(data.id).then(like => {
         expect(data.id).to.be.equal(like.id);
         done();

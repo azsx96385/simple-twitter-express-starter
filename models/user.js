@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     //固定 followingId -  抓出追隨者
     User.belongsToMany(models.User, {
       through: models.Followship,
-      foreignKey: "FollowingId",
+      foreignKey: "followingId",
       as: "Followers"
     });
     //固定 followerId - 抓出 已追蹤的人
     User.belongsToMany(models.User, {
       through: models.Followship,
-      foreignKey: "FollowerId",
+      foreignKey: "followerId",
       as: "Followings"
     });
     //關聯三 | User-tweet Like | 多對多

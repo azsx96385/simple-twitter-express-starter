@@ -94,7 +94,9 @@ const userController = {
         user_avatar: user.avatar,
         user_name: user.name,
         //紀錄是否like
-        isLiked: tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id)
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(
+          helpers.getUser(req).id
+        )
       }));
       //依時間前後排序
       userTweets = userTweets.sort((a, b) => b.createAt - a.createAt);
@@ -116,7 +118,9 @@ const userController = {
       ]
     }).then(user => {
       //判斷其是否已follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id);
+      user.isFollowed = user.Followers.map(d => d.id).includes(
+        helpers.getUser(req).id
+      );
 
       let userFollowings = user.Followings; //取得追蹤中的users
       //
@@ -127,7 +131,9 @@ const userController = {
         user_name: followingUser.name,
         user_introduction: followingUser.introduction.substring(0, 50),
         //紀錄是否追蹤過
-        isFollowed: followingUser.Followers.map(d => d.id).includes(helpers.getUser(req).id)
+        isFollowed: followingUser.Followers.map(d => d.id).includes(
+          helpers.getUser(req).id
+        )
       }));
       //依時間前後排序
       userFollowings = userFollowings.sort((a, b) => b.createAt - a.createAt);
@@ -152,7 +158,9 @@ const userController = {
       ]
     }).then(user => {
       //判斷其是否已follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id);
+      user.isFollowed = user.Followers.map(d => d.id).includes(
+        helpers.getUser(req).id
+      );
       let userFollowers = user.Followers;
       //console.log("----------------", userFollowers[0]);
       userFollowers = userFollowers.map(followedUser => ({
@@ -162,7 +170,9 @@ const userController = {
         user_name: followedUser.name,
         user_introduction: followedUser.introduction.substring(0, 50),
         //紀錄是否追蹤過
-        isFollowed: followedUser.Followers.map(d => d.id).includes(helpers.getUser(req).id)
+        isFollowed: followedUser.Followers.map(d => d.id).includes(
+          helpers.getUser(req).id
+        )
       }));
       //依時間前後排序
       userFollowers = userFollowers.sort((a, b) => b.createAt - a.createAt);
@@ -186,7 +196,9 @@ const userController = {
       ]
     }).then(user => {
       //判斷其是否已follow
-      user.isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id);
+      user.isFollowed = user.Followers.map(d => d.id).includes(
+        helpers.getUser(req).id
+      );
       //依時間前後排序
       let userLikedTweets = user.LikedTweets.sort(
         (a, b) => b.createdAt - a.createdAt
@@ -194,8 +206,10 @@ const userController = {
       //重組likeTweet的資料 加上isliked屬性
       userLikedTweets = userLikedTweets.map(tweet => ({
         ...tweet.dataValues,
-        isLiked: tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id)
-      }))
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(
+          helpers.getUser(req).id
+        )
+      }));
 
       return res.render("userLike", {
         user: user,
@@ -204,13 +218,16 @@ const userController = {
     });
   },
   follow: (req, res) => {
-
-    return Follow.create({
-      FollowerId: helpers.getUser(req).id,
-      FollowingId: req.body.FollowingId //取得form中 hidden input的值
-    }).then(data => {
+    if (helpers.getUser(req).id !== req.body.FollowingId) {
+      return Follow.create({
+        FollowerId: helpers.getUser(req).id,
+        FollowingId: req.body.FollowingId //取得form中 hidden input的值
+      }).then(data => {
+        return res.redirect("back");
+      });
+    } else {
       return res.redirect("back");
-    });
+    }
   },
   unfollow: (req, res) => {
     return Follow.destroy({
