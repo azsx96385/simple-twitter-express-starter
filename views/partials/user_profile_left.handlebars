@@ -22,12 +22,12 @@
     {{!-- 用戶編輯按鈕 --}}
     {{#if user.isFollowed}}
     <form action="/followships/{{user.id}}?_method=Delete" method="POST">
-        <input type="hidden" name="FollowingId" value="{{user.id}}" />
+        <input type="hidden" name="id" value="{{user.id}}" />
         <button type="submit" class="btn btn-primary btn-block">Unfollow</button>
     </form>
     {{else}}
     <form action="/followships" method="POST">
-        <input type="hidden" name="FollowingId" value="{{user.id}}" />
+        <input type="hidden" name="id" value="{{user.id}}" />
         <button type="submit" class="btn btn-primary btn-block">follow</button>
     </form>
     {{/if}}

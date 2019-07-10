@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  User.associate = function(models) {
+  User.associate = function (models) {
     //設定model 關聯
     //關聯一 | User - tweet | 一對多關係
     User.hasMany(models.Tweet, { as: "UserTweets" });

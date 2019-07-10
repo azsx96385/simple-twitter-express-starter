@@ -218,16 +218,17 @@ const userController = {
     });
   },
   follow: (req, res) => {
-    if (helpers.getUser(req).id !== req.body.FollowingId) {
-      return Follow.create({
-        FollowerId: helpers.getUser(req).id,
-        FollowingId: req.body.FollowingId //取得form中 hidden input的值
-      }).then(data => {
-        return res.redirect("back");
-      });
-    } else {
-      return res.redirect("back");
+    //如果目前使用者是自己導回
+    if (Number(req.body.id) === Number(helpers.getUser(req).id)) {
+      return res.redirect(`back`);
     }
+
+    return Follow.create({
+      followerId: helpers.getUser(req).id,
+      followingId: req.body.id //取得form中 hidden input的值
+    }).then(data => {
+      return res.redirect("back");
+    });
   },
   unfollow: (req, res) => {
     return Follow.destroy({
@@ -260,6 +261,11 @@ const userController = {
   },
 
   editProfilePage: (req, res) => {
+    //如果目前使用者不是自己，導回
+    if (Number(req.params.id) !== Number(helpers.getUser(req).id)) {
+      return res.redirect(`users/${helpers.getUser(req).id}/edit`);
+    }
+
     return User.findByPk(req.params.id).then(user => {
       return res.render("editProfile", { user });
     });
@@ -268,9 +274,8 @@ const userController = {
     //name為空白的例外處理
     if (!req.body.name) {
       flash("error_messages", "請輸入你的名稱");
-      return res.redirectO("back");
+      return res.redirect("back");
     }
-
     const { file } = req;
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID);
