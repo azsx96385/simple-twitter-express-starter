@@ -27,12 +27,12 @@
                 {{else}}
                 {{#if this.isFollowed}}
                 <form class="float-right" action="/followships/{{this.id}}?_method=Delete" method="POST">
-                    <input type="hidden" name="FollowingId" value="{{this.id}}" />
+                    <input type="hidden" name="id" value="{{this.id}}" />
                     <button type="submit" class="btn btn-primary">unfollow</button>
                 </form>
                 {{else}}
                 <form class="float-right" action="/followships" method="POST">
-                    <input type="hidden" name="FollowingId" value="{{this.id}}" />
+                    <input type="hidden" name="id" value="{{this.id}}" />
                     <button type="submit" class="btn btn-primary">follow</button>
                 </form>
                 {{/if}}

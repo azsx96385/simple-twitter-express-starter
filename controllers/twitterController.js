@@ -72,14 +72,14 @@ const twitterController = {
     if (req.body.content.length > 140) {
       req.flash("error_messages", "你的推文不能超過140個字!!");
       return res.redirect("back");
-    } else {
-      return Tweet.create({
-        description: req.body.content,
-        UserId: helpers.getUser(req).id
-      }).then(tweets => {
-        return res.redirect("/tweets");
-      });
     }
+    return Tweet.create({
+      description: req.body.content,
+      UserId: helpers.getUser(req).id
+    }).then(tweets => {
+      return res.redirect("back");
+    });
+
   },
   //reply頁面
   replyPage: (req, res) => {
