@@ -64,20 +64,21 @@ const twitterController = {
   //create 新貼文
   postTwitters: (req, res) => {
     //推文字數不能超過140 或 空白
-    if (req.body.content === "") {
+    if (req.body.description === "") {
       req.flash("error_messages", "推文不能為空白！");
       return res.redirect("back");
     }
 
-    if (req.body.content.length > 140) {
+    if (req.body.description.length > 140) {
       req.flash("error_messages", "你的推文不能超過140個字!!");
       return res.redirect("back");
     }
+
     return Tweet.create({
-      description: req.body.content,
+      description: req.body.description,
       UserId: helpers.getUser(req).id
     }).then(tweets => {
-      return res.redirect("back");
+      return res.redirect("/tweets");
     });
 
   },
