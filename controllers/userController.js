@@ -220,15 +220,19 @@ const userController = {
   follow: (req, res) => {
     //如果目前使用者是自己導回
     if (Number(req.body.id) === Number(helpers.getUser(req).id)) {
-      return res.redirect(`back`);
+      console.log("錯誤|使用者不能夠追蹤自己");
+      return res.render(`partials/error_message`, {
+        error_message: "很抱歉! 您無法追蹤自己",
+        lastpag: ""
+      });
+    } else {
+      return Follow.create({
+        followerId: helpers.getUser(req).id,
+        followingId: req.body.id //取得form中 hidden input的值
+      }).then(data => {
+        return res.redirect("back");
+      });
     }
-
-    return Follow.create({
-      followerId: helpers.getUser(req).id,
-      followingId: req.body.id //取得form中 hidden input的值
-    }).then(data => {
-      return res.redirect("back");
-    });
   },
   unfollow: (req, res) => {
     return Follow.destroy({
