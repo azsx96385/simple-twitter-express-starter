@@ -1,47 +1,16 @@
-<div class="row">
-  <div class="col">
-    <img src="{{user.avatar}}" alt="{{user.name}}">
-    <h2>{{user.name}}</h2>
-    <p>{{user.introduction}}</p>
-
-    <a href="#" class="d-block"><strong>Tweets {{user.Tweets.length}}</strong></a>
-    <a href="/users/{{user.id}}/followings" class="d-block"><strong>
-        Following{{user.Followings.length}}
-      </strong></a>
-    <a href="/users/{{user.id}}/followers" class="d-block"><strong>Follower {{user.Followers.length}}</strong></a>
-    <a href="/users/{{user.id}}/likes" class="d-block"><strong>Like {{user.likedTweets.length}}</strong></a>
-    <!--是自己 是edit 是別人follow-->
-    {{#ifCond  req.user.id user.id}}
-
-    <a href="	/users/{{user.id}}/edit" class="btn" class="d-block">edit</a>
-    {{else}}
-    <a href="	followships" class="btn" class="d-block">FolloW</a>
-
-    {{/ifCond }}
-
-
+<div class="row d-flex justify-content-around">
+  <div class="col-2 user_profile_left">
+    {{> user_profile_left }}
   </div>
-  <div class="col">
+  <div class="col-7">
     <h1>Following</h1>
-    {{#each userFollowings}}
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">{{this.name}}</h5>
-
-        <p class="card-text">{{this.introduction}}
-        </p>
-        <div class="card-body d-flex  flex-row-reverse">
-          <a href="" class="card-link">following</a>
-        </div>
-        <form action="/followships" method="POST">
-
-          <input type="hidden" name="FollowingId" value="{{this.id}}" />
-          <button type="submit" class="btn btn-primary">follow</button>
-        </form>
-      </div>
+    <div class="row">
+      {{#each userFollowings}}
+      {{> user_card_min}}
       {{/each}}
     </div>
-
-
   </div>
+
+
+</div>
 </div>

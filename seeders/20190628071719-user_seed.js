@@ -2,21 +2,41 @@
 const bcrypt = require("bcrypt-nodejs");
 const faker = require("faker");
 
-//fake-userdata array
-let faseUserArray = [];
-for (let i = 1; i < 11; i++) {
-  faseUserArray.push({
-    name: `user${i}`,
-    email: `user${i}@example.com`,
-    password: bcrypt.hashSync("123", bcrypt.genSaltSync(10), null),
-    createdAt: new Date(),
-    updatedAt: new Date()
-  });
-}
 // console.log(faseUserArray);
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("Users", faseUserArray, {});
+    //產生管理者
+    queryInterface.bulkInsert(
+      "Users",
+      [
+        {
+          name: `root`,
+          email: `root@example.com`,
+          password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
+          avatar: `https://uinames.com/api/photos/male/2.jpg`,
+          introduction: faker.lorem.words(),
+          role: "admin",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      ],
+      {}
+    );
+    //產生20基本用戶
+    return queryInterface.bulkInsert(
+      "Users",
+      Array.from({ length: 20 }).map((data, index) => ({
+        name: `user${index + 1}`,
+        email: `user${index + 1}@example.com`,
+        password: bcrypt.hashSync("123", bcrypt.genSaltSync(10), null),
+        avatar: `https://uinames.com/api/photos/male/${index + 1}.jpg`,
+        introduction: faker.lorem.words(),
+        role: "",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })),
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

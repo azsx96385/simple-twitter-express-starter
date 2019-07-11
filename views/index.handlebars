@@ -1,0 +1,63 @@
+<div class="row my-5 d-flex   justify-content-center">
+  {{!-- 左側-tweet-block --}}
+  <div class="col-6">
+    <form action="/tweets" method="post">
+      <div class="form-group">
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="What's on your mind?"
+          name="description"></textarea>
+        <div class="d-flex flex-row-reverse">
+          <div class="p-2">
+            <button type="submit" class="btn btn-primary radious">Tweet</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <div class="tweets ">
+      <!--tweetsSection-->
+      <div class="row">
+        {{#each tweets}}
+        {{> user_card_index}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  {{!-- 右側-popular-block --}}
+  <div class="col-3 ml-3">
+    <h2>Popular</h2>
+    <div class="row">
+      {{#each users}}
+      {{> user_card_mid}}
+      {{/each}}
+
+    </div>
+  </div>
+
+</div>
+<!--分頁-->
+<div class="d-flex justify-content-center ">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="/tweets?page={{prev}}" aria-label="Previous">
+          <span aria-hidden="true">«</span>
+        </a>
+      </li>
+      {{#each totalPage}}
+      {{#ifCond this ../page}}
+      <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
+      {{else}}
+      <li class="page-item"><a class="page-link" href="/tweets?page={{this}}">{{this}}</a></li>
+      <!--用req.query取得-->
+      {{/ifCond}}
+      {{/each}}
+      <a class="page-link" href="/tweets?page={{next}}" aria-label="Next">
+        <span aria-hidden="true">»</span>
+      </a>
+      </li>
+    </ul>
+  </nav>
+
+</div>

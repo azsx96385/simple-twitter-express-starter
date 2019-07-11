@@ -1,12 +1,12 @@
 {{> admin_nav }}
 {{> message }}
-<div class="row">
-    <div class="col-1"></div>
+<div class="row d-flex justify-content-center">
+
     <div class="admiv_tweets col-10">
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">User</th>
                     <th scope="col">Tweets</th>
                     <th scope="col">Followings</th>
@@ -17,8 +17,11 @@
             <tbody>
                 {{#each users}}
                 <tr>
-                    <th scope="row"></th>
-                    <td>{{this.name}}</td>
+                    <td>
+                        <p class="font-weight-bold">{{this.no}}</p>
+                    </td>
+                    <td><img class="h-25  rounded-circle mr-2" src="{{this.avatar}}" alt="{{this.id}}大頭貼">{{this.name}}
+                    </td>
                     <td>{{this.TweetsAcount}}</td>
                     <td>{{this.FollowingsAcount}}</td>
                     <td>{{this.FollowersAcount}}</td>

@@ -1,0 +1,102 @@
+<div class="row d-flex justify-content-around">
+  <div class="col-2 user_profile_left">
+    {{> user_profile_left }}
+  </div>
+  <div class="col-7">
+    {{!-- 用戶推文 --}}
+    <h1>Tweets</h1>
+    <div class="row">
+      <div class=" user_card col-12 border my-2 radious">
+        <div class="row">
+          {{!-- 用戶卡片-頭貼 --}}
+          <div class="user_card_pic col-3 my-2">
+            <img class="radious w-100" src="{{user.avatar}}">
+          </div>
+          {{!-- 用戶卡片-基本資料 --}}
+          <div class="user_card_info col-9 my-3 d-flex flex-column justify-content-between">
+            {{!-- 標題 --}}
+            <div class="info_header ">
+              <a class="d-inline" href="/users/{{user.id}}/tweets">
+                <h3 class="d-inline">{{user.name}}</h3>
+              </a>
+              <p class="d-inline ml-5 pt-2 text-secondary float-right"> {{#moment this.createdAt}}{{/moment}}</p>
+            </div>
+            {{!-- 內文 --}}
+            <div class="info_description flex-grow-1">
+              <p>{{tweet.description}}
+              </p>
+            </div>
+            {{!-- 社群指標 --}}
+            <div class="info_btns ">
+              <a class="float-right pt-2" href="/tweets/{{tweet.id}}/replies">Reply {{tweet.Replies.length}}</a>
+              <!--like unlike-->
+              {{#if tweet.isLiked}}
+              <form action="/tweets/{{tweet.id}}/unlike" method="POST" style="display: contents;">
+                <button type="submit" class="btn btn-link float-right">
+                  <i class="far fa-heart " aria-hidden></i>
+                  {{tweet.LikedUsers.length}}
+                </button>
+              </form>
+              {{else}}
+              <form action="/tweets/{{tweet.id}}/like" method="POST" style="display: contents;">
+                <button type="submit" class="btn btn-link float-right">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                  {{tweet.LikedUsers.length}}
+                </button>
+                {{/if}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {{!-- 用戶回復 --}}
+    <h1>Replies </h1>
+    <div class="row">
+      <form class="col-12 h-50" action="/tweets/{{tweet.id}}/replies" method="post">
+        <div class="form-group">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment"></textarea>
+          <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+              <button type="submit" class="btn btn-primary">Repy</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      {{#each tweetReplies}}
+      <div class=" user_card col-12 border my-2 radious">
+        <div class="row">
+          {{!-- 用戶卡片-頭貼 --}}
+          <div class="user_card_pic col-3 my-2">
+            <img class="radious w-100" src="{{this.User.avatar}}">
+          </div>
+          {{!-- 用戶卡片-基本資料 --}}
+          <div class="user_card_info col-9 my-3 d-flex flex-column justify-content-between">
+            {{!-- 標題 --}}
+            <div class="info_header ">
+              <a class="d-inline" href="/users/{{this.User.id}}/tweets">
+                <h3 class="d-inline">{{this.User.name}}</h3>
+              </a>
+              <p class="d-inline ml-5 pt-2 text-secondary float-right"> {{#moment this.createdAt}}{{/moment}}</p>
+            </div>
+            {{!-- 內文 --}}
+            <div class="info_description flex-grow-1">
+              <p>{{this.comment}}
+              </p>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+      {{/each}}
+    </div>
+
+
+
+  </div>
+</div>
