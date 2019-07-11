@@ -32,7 +32,7 @@ module.exports = (app, passport) => {
   //heroku 除錯
   const checkUserAuth = (req, res, next) => {
     if (req.session.user) return next();
-    return next(new NotAuthorizedError());
+    return next();
   };
   //[使用者 登入 | 登出 | 註冊]==========================
   app.get("/", (req, res) => {
