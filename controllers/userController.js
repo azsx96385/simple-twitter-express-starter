@@ -222,7 +222,7 @@ const userController = {
       console.log("錯誤|使用者不能夠追蹤自己");
       return res.render(`partials/error_message`, {
         error_message: "很抱歉! 您無法追蹤自己",
-        lastpag: ""
+        lastpag: "/"
       });
     } else {
       return Follow.create({
