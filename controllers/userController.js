@@ -57,7 +57,9 @@ const userController = {
   },
   logIn: (req, res) => {
     //使用 passport 做驗證
+    console.log("你已經成功登入!");
     req.flash("success_messages", "成功訊息|你已經成功登入");
+    console.log("即將導向畫面");
     res.redirect("/tweets");
   },
   logOut: (req, res) => {
