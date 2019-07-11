@@ -29,6 +29,11 @@ module.exports = (app, passport) => {
     }
     return res.redirect("/");
   };
+  //heroku 除錯
+  const checkUserAuth = (req, res, next) => {
+    if (req.session.user) return next();
+    return next(new NotAuthorizedError());
+  };
   //[使用者 登入 | 登出 | 註冊]==========================
   app.get("/", (req, res) => {
     res.redirect("/users/logIn");
@@ -36,13 +41,14 @@ module.exports = (app, passport) => {
   app.get("/users/signUp", userController.signUpPage);
   app.post("/users/signUp", userController.signUp);
 
-  app.get("/users/logIn", userController.logInPage);
+  app.get("/users/logIn", checkUserAuth, userController.logInPage);
   app.post(
     "/users/logIn",
     passport.authenticate("local", {
       failureRedirect: "/users/logIn",
       failureFlash: true
     }),
+    checkUserAuth,
     userController.logIn
   );
 
