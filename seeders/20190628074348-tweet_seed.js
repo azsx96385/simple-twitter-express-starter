@@ -24,7 +24,7 @@ let fakeTweet = [];
 for (let i = 0; i < 100; i++) {
   let random = Math.floor(Math.random() * sampleText.length);
   fakeTweet.push({
-    UserId: Math.ceil(Math.random() * 20),
+    UserId: Math.ceil(Math.random() * 10),
     description: sampleText[random],
     createdAt: new Date(),
     updatedAt: new Date()

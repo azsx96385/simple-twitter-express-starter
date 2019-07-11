@@ -3,7 +3,7 @@
 let fakelike = [];
 for (let i = 1; i < 100; i++) {
   let TweetId = Math.ceil(Math.random() * 100);
-  let UserId = Math.ceil(Math.random() * 20);
+  let UserId = Math.ceil(Math.random() * 10);
   fakelike.push({
     UserId: UserId,
     TweetId: TweetId,

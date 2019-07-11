@@ -25,7 +25,7 @@ module.exports = {
     //產生20基本用戶
     return queryInterface.bulkInsert(
       "Users",
-      Array.from({ length: 20 }).map((data, index) => ({
+      Array.from({ length: 10 }).map((data, index) => ({
         name: `user${index + 1}`,
         email: `user${index + 1}@example.com`,
         password: bcrypt.hashSync("123", bcrypt.genSaltSync(10), null),

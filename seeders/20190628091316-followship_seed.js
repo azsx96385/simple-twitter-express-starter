@@ -2,8 +2,8 @@
 
 let fakeFollowship = [];
 for (let i = 1; i < 100; i++) {
-  let FollowerId = Math.ceil(Math.random() * 20);
-  let FollowingId = Math.ceil(Math.random() * 20);
+  let FollowerId = Math.ceil(Math.random() * 10);
+  let FollowingId = Math.ceil(Math.random() * 10);
   if (FollowerId === FollowingId) {
     fakeFollowship.push({
       followerId: FollowerId,
