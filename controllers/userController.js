@@ -53,7 +53,7 @@ const userController = {
     //驗證密碼相同
   },
   logInPage: (req, res) => {
-    return res.render("user_logIn");
+    return res.render("user_login");
   },
   logIn: (req, res) => {
     //使用 passport 做驗證
