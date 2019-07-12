@@ -63,7 +63,7 @@ const userController = {
   logOut: (req, res) => {
     req.flash("success_messages", "成功訊息|你已經成功登出");
     req.logout();
-    res.redirect("/users/logIn");
+    res.redirect("/users/login");
   },
   //profile
   getUserTweets: (req, res) => {
