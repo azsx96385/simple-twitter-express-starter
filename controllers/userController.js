@@ -40,7 +40,7 @@ const userController = {
             null
           );
           User.create({ email, name, password }).then(user => {
-            return res.redirect("/users/login");
+            return res.redirect("/users/logIn");
           });
         } else {
           //驗證失敗
@@ -53,7 +53,7 @@ const userController = {
     //驗證密碼相同
   },
   logInPage: (req, res) => {
-    return res.render("user_logIn");
+    return res.render("user_login");
   },
   logIn: (req, res) => {
     //使用 passport 做驗證
@@ -63,7 +63,7 @@ const userController = {
   logOut: (req, res) => {
     req.flash("success_messages", "成功訊息|你已經成功登出");
     req.logout();
-    res.redirect("/users/login");
+    res.redirect("/users/logIn");
   },
   //profile
   getUserTweets: (req, res) => {
