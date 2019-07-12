@@ -56,6 +56,7 @@ const twitterController = {
           return res.render("index", {
             tweets: tweets,
             users: users,
+            page: page,
             totalPage: totalPage,
             prev: prev,
             next: next
