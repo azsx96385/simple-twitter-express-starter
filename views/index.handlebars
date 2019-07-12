@@ -47,7 +47,7 @@
       </li>
       {{#each totalPage}}
       {{#ifCond this ../page}}
-      <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
+      <li class="page-item active"><a class="page-link " href="#">{{this}}</a></li>
       {{else}}
       <li class="page-item"><a class="page-link" href="/tweets?page={{this}}">{{this}}</a></li>
       <!--用req.query取得-->
