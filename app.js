@@ -60,9 +60,9 @@ app.use((req, res, next) => {
   res.locals.error_messages = req.flash("error_messages");
   //feature/shang3
   //res.locals.user = helpers.getUser(req)
-
   res.locals.loginUser = helpers.getUser(req);
   res.locals.isAuthenticated = helpers.ensureAuthenticated(req);
+  res.locals.adminAuthenticate = helpers.getUser(req);
 
   next();
 });

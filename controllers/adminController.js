@@ -4,6 +4,7 @@
 const db = require("../models");
 const User = db.User;
 const Tweet = db.Tweet;
+const Reply = db.Reply;
 
 //設定controller
 const adminController = {
@@ -41,9 +42,27 @@ const adminController = {
   //     res.render("admin_tweets", { tweets, pre, next, totalPage, page });
   //   });
   //推文總攬
+  tweetsReply: (req, res) => {
+    let tweetId = req.params.id;
+    return Reply.findAll({
+      where: { TweetId: tweetId },
+      include: [User, Tweet]
+    }).then(comments => {
+      console.log(comments[0]);
+      comments = comments.map(comment => ({
+        ...comment.dataValues,
+        commentTime: comment.dataValues.createdAt,
+        commentUserId: comment.User.id,
+        commentUserImg: comment.User.avatar,
+        commentUserName: comment.User.name,
+        comment: comment.dataValues.comment.substring(0, 50)
+      }));
+      return res.render("admin_tweets_userreply", { comments });
+    });
+  },
   tweetsPage: (req, res) => {
-    return Tweet.findAll({ include: [User] }).then(tweets => {
-      //console.log(tweets[0]);
+    return Tweet.findAll({ include: [User, Reply] }).then(tweets => {
+      console.log(tweets[0]);
       tweets = tweets.map(tweet => ({
         ...tweet.dataValues,
         description: tweet.dataValues.description.substring(0, 50)

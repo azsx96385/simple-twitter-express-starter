@@ -8,10 +8,9 @@
         {{!-- 加在這裡 --}}
     </div>
     <div class="user_nav_right">
-
-        {{#if isAuthenticated}}
+        {{#ifCond loginUser.role  "admin" }}
         <a class="mr-3" href="/admin/tweets">Admin</a>
-        {{/if}}
+        {{/ifCond}}
         <a class="mr-3" href="/users/logOut">Logout</a>
     </div>
 </nav>

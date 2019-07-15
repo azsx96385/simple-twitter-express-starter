@@ -49,6 +49,7 @@ module.exports = (app, passport) => {
   app.get("/users/logOut", userController.logOut);
   //[管理者  推文總攬 | 使用者總攬]==========================
   app.get("/admin/tweets", adminAuthenticate, adminController.tweetsPage);
+  app.get("/admin/tweets/:id", authenticate, adminController.tweetsReply);
   app.post("/admin/tweets", authenticate, adminController.getSearchUser);
   app.delete("/admin/tweets/:id", authenticate, adminController.deleteTweets);
   app.get("/admin/users", authenticate, adminController.usersPage);
