@@ -13,7 +13,9 @@
     <div class="col">
 
       <input class="form-control" placeholder="name" value="{{user.name}}" name='name'>
-      <textarea class="form-control" rows="3" value="{{user.introduction}}" name='introduction'></textarea>
+      <textarea class="form-control" rows="3" name='introduction'>
+        "{{user.introduction}}"
+      </textarea>
       <button class="btn btn-primary" type="submit">Update</button>
 
     </div>

@@ -17,7 +17,7 @@
 <div class="user_socialBtns pl-2 mt-4">
     <!--是自己 是edit 是別人follow-->
     {{#ifCond  loginUser.id  user.id}}
-    <a href="	/users/{{user.id}}/edit" class="btn" class="d-block">edit</a>
+    <a href="	/users/{{user.id}}/edit" class="btn btn-primary" class="d-block">edit</a>
     {{else}}
     {{!-- 用戶編輯按鈕 --}}
     {{#if user.isFollowed}}

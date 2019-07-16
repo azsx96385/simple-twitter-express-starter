@@ -36,6 +36,9 @@ const twitterController = {
           helpers.getUser(req).id
         )
       }));
+      //依新舊來排序tweet
+      tweets = tweets.sort((a, b) => b.createdAt - a.createdAt)
+
 
       //TOP10 Followings users
       return User.findAll({ include: [{ model: User, as: "Followers" }] }).then(
