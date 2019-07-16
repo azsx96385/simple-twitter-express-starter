@@ -60,7 +60,6 @@ module.exports = (app, passport) => {
   app.get("/tweets", authenticate, twitterController.getTwitters);
   //新增tweets
   app.post("/tweets", authenticate, twitterController.postTwitters);
-  IMGUR_CLIENT_ID = eb4a8be412ed739;
 
   //profile
   //tweet wall
