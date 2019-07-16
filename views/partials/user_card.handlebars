@@ -24,15 +24,17 @@
                 <!--like unlike-->
                 {{#if this.isLiked}}
                 <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
-                    <button type="submit" class="btn btn-link float-right">
-                        <i class="far fa-heart " aria-hidden></i>
+                    <button type="submit" class="btn btn-link float-right" data-toggle="tooltip" data-placement="top"
+                        title="Unlike">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
                         {{this.LikedUsers.length}}
                     </button>
                 </form>
                 {{else}}
                 <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
-                    <button type="submit" class="btn btn-link float-right">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
+                    <button type="submit" class="btn btn-link float-right" data-toggle="tooltip" data-placement="top"
+                        title="Like">
+                        <i class="far fa-heart " aria-hidden></i>
                         {{this.LikedUsers.length}}
                     </button>
                 </form>
