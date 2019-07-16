@@ -14,10 +14,13 @@ const twitterController = {
       offset = (req.query.page - 1) * pageLimit;
     }
     //看到所有的推文
+
     Tweet.findAndCountAll({
       include: [User, Reply, { model: User, as: "LikedUsers" }],
       offset: offset,
-      limit: pageLimit
+      limit: pageLimit,
+      order: [['createdAt', 'DESC']],
+      distinct: true
     }).then(result => {
       // data for pagination
       let page = Number(req.query.page) || 1;
@@ -36,12 +39,9 @@ const twitterController = {
           helpers.getUser(req).id
         )
       }));
-      //依新舊來排序tweet
-      tweets = tweets.sort((a, b) => b.createdAt - a.createdAt)
-
 
       //TOP10 Followings users
-      return User.findAll({ include: [{ model: User, as: "Followers" }] }).then(
+      User.findAll({ include: [{ model: User, as: "Followers" }] }).then(
         users => {
           //重設定users集合，賦予followerCount與isFollowed
           users = users.map(user => ({
