@@ -27,9 +27,15 @@ const userController = {
       req.flash("error_messages", "錯誤訊息|資料漏填");
       return res.redirect("back");
     }
+    User.findOne({ where: { name: name } }).then(user => {
+      if (user) {
+        req.flash("error_messages", "錯誤訊息| 名字已被使用，請更換");
+        return res.redirect("back");
+      }
+    });
     User.findOne({ where: { email: email } }).then(user => {
       if (user) {
-        req.flash("error_messages", "錯誤訊息|帳號已被使用");
+        req.flash("error_messages", "錯誤訊息|信箱已被使用，請更換");
         return res.redirect("back");
       } else {
         if (password == password_confirm) {
@@ -50,7 +56,6 @@ const userController = {
         }
       }
     });
-    //驗證密碼相同
   },
   logInPage: (req, res) => {
     return res.render("user_login");

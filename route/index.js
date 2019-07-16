@@ -31,7 +31,7 @@ module.exports = (app, passport) => {
   };
   //[使用者 登入 | 登出 | 註冊]==========================
   app.get("/", (req, res) => {
-    res.redirect("/users/logIn");
+    res.redirect("/tweets");
   });
   app.get("/users/signUp", userController.signUpPage);
   app.post("/users/signUp", userController.signUp);
