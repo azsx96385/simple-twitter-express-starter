@@ -3,14 +3,14 @@
 {{/if}}
 <form action="/users/{{user.id}}/edit" method="POST" enctype="multipart/form-data">
   <div class="row">
-    <div class="col-4">
-      <img class="radious w-25" src="{{user.avatar}}" alt="{{user.name}}">
+    <div class="col">
+      <img src="{{user.avatar}}" alt="{{user.name}}">
       <div class="form-group">
         <label for="image">Image</label>
         <input type="file" class="form-control-file" id="image" name="image">
       </div>
     </div>
-    <div class="col-8">
+    <div class="col">
 
       <input class="form-control" placeholder="name" value="{{user.name}}" name='name'>
       <textarea class="form-control" rows="3" value="{{user.introduction}}" name='introduction'></textarea>
