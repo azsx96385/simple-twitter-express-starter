@@ -34,11 +34,13 @@ const twitterController = {
       let tweets = result.rows;
       tweets = tweets.map(tweet => ({
         ...tweet.dataValues,
+        likeCount: tweet.LikedUsers.length,
         //紀錄是否被like
         isLiked: tweet.LikedUsers.map(d => d.id).includes(
           helpers.getUser(req).id
         )
       }));
+
 
       //TOP10 Followings users
       User.findAll({ include: [{ model: User, as: "Followers" }] }).then(
